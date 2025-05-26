@@ -38,7 +38,7 @@ const EditCoupon = () => {
   const handleSubmit = e => {
     e.preventDefault();
     let discountDisplay = form.discountType === 'percent' ? `${form.discount} %` : `₹ ${form.discount}`;
-    alert('Coupon updated!\n' + JSON.stringify({ ...form, discount: discountDisplay }, null, 2));
+    // alert('Coupon updated!\n' + JSON.stringify({ ...form, discount: discountDisplay }, null, 2));
     navigate('/admin/dashboard/coupon');
   };
 

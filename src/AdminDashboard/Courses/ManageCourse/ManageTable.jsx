@@ -11,6 +11,34 @@ import { authToken } from '../../../utils/constants';
 import apiService from '../../../api';
 import toast from 'react-hot-toast';
 
+const TableSkeleton = () => {
+  return (
+    <div className="bg-white rounded-lg shadow">
+      <table className="w-full">
+        <thead className="bg-gray-50">
+          <tr>
+            {[1, 2, 3, 4, 5, 6, 7].map((index) => (
+              <th key={index} className="px-4 py-3">
+                <div className="h-4 w-20 bg-gray-300 rounded animate-pulse"></div>
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {[1, 2, 3, 4, 5].map((rowIndex) => (
+            <tr key={rowIndex} className="border-t">
+              {[1, 2, 3, 4, 5, 6, 7].map((colIndex) => (
+                <td key={colIndex} className="px-4 py-3">
+                  <div className="h-4 w-24 bg-gray-300 rounded animate-pulse"></div>
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
 
 const ManageTable = () => {
   const [courses, setCourses] = useState([]);
@@ -20,15 +48,24 @@ const ManageTable = () => {
   const [showFilterMenu, setShowFilterMenu] = useState(false);
   const [sortBy, setSortBy] = useState(null);
   const [sortOrder, setSortOrder] = useState('asc');
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
   const itemsPerPage = 10;
-
 
   useEffect(() => {
     (async () => {
-      const response = await apiService.course.fetchCourse()
-     
-      if (response.status) setCourses(response.data)
-      else toast.error(response.error)
+      try {
+        const response = await apiService.course.fetchCourse()
+        if (response.status) {
+          setCourses(response.data)
+        } else {
+          toast.error(response.error)
+        }
+      } catch (error) {
+        toast.error("Failed to fetch courses")
+      } finally {
+        setLoading(false)
+      }
     })()
   }, [])
 
@@ -120,7 +157,7 @@ const ManageTable = () => {
   const handleEditCourse = (courseId) => {
  
     // Implement edit course functionality
-    handleNavigation(`/admin/dashboard/courseedit?courseId=${courseId}`);
+    navigate(`/admin/dashboard/courseedit?courseId=${courseId}`);
   };
 
   const handleToggleCourseStatus = (courseId) => {
@@ -162,7 +199,6 @@ const ManageTable = () => {
       alert('An error occurred while deleting the course');
     }
   };
-  let handleNavigation = useNavigate();
 
   // Calculate pagination
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -187,7 +223,7 @@ const ManageTable = () => {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-xl font-bold">Manage Courses</h1>
         <button
-          onClick={() => handleNavigation('/admin/dashboard/courses/add')}
+          onClick={() => navigate('/admin/dashboard/courses/add')}
           className="flex items-center gap-2 px-4 py-2 bg-[#020A47] text-white rounded-lg cursor-pointer">
           <GoPlus className='text-3xl lg:text-xl ' /> Add New Course
         </button>
@@ -291,101 +327,105 @@ const ManageTable = () => {
       </div>
 
       {/* Table */}
-      <div className="bg-white rounded-lg shadow">
-        <table className="w-full">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="px-4 py-3 text-left">#</th>
-              <th className="px-4 py-3 text-left">Title</th>
-              <th className="px-4 py-3 text-left">Category</th>
-              <th className="px-4 py-3 text-left">Enrolled Student</th>
-              <th className="px-4 py-3 text-left">Status</th>
-              <th className="px-4 py-3 text-left">Price</th>
-              <th className="px-4 py-3 text-left">Options</th>
-            </tr>
-          </thead>
-          <tbody>
-            {currentItems.map((course) => (
-              <tr key={course.id} className="border-t">
-                <td className="px-4 py-3">{course.id}</td>
-                <td className="px-4 py-3">
-                  <div>
-                    <div className="font-medium">{course.title}</div>
-                  </div>
-                </td>
-                <td className="px-4 py-3">{course.category_title}</td>
-                <td className="px-4 py-3">
-                  Enrollment History: {course.people_enrolled}
-                </td>
-                <td className="px-4 py-3">
-                  <span className={`px-2 py-1 rounded-full text-sm ${course.status === 'active' ? 'bg-green-100 text-green-800' :
-                    course.status === 'pending' ? 'bg-blue-100 text-blue-800' :
-                      'bg-gray-100 text-red-800'
-                    }`}>
-                    {course.status}
-                  </span>
-                </td>
-                <td className="px-4 py-3">
-                  {course.pricing_type === "free" ? (
-                    'Free'
-                  ) : (
-                    <div className='flex items-center gap-2'>
-                      {
-                        course.discount_price === 0 ? (
-                          <div> ₹ {course.price}</div>
-                        ) : <div>{course.discount_price}</div>
-                      }
-
-                      {course.discount_price !== 0 && (
-                        <span className="text-gray-400 line-through ml-2">
-                          ₹ {course.price}
-                        </span>
-                      )}
+      {loading ? (
+        <TableSkeleton />
+      ) : (
+        <div className="bg-white rounded-lg shadow">
+          <table className="w-full">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-4 py-3 text-left">#</th>
+                <th className="px-4 py-3 text-left">Title</th>
+                <th className="px-4 py-3 text-left">Category</th>
+                <th className="px-4 py-3 text-left">Enrolled Student</th>
+                <th className="px-4 py-3 text-left">Status</th>
+                <th className="px-4 py-3 text-left">Price</th>
+                <th className="px-4 py-3 text-left">Options</th>
+              </tr>
+            </thead>
+            <tbody>
+              {currentItems.map((course) => (
+                <tr key={course.id} className="border-t">
+                  <td className="px-4 py-3">{course.id}</td>
+                  <td className="px-4 py-3">
+                    <div>
+                      <div className="font-medium">{course.title}</div>
                     </div>
-                  )}
-                </td>
-                <td className="px-4 py-3 relative">
-                  <div className="relative">
-                    <button
-                      onClick={(e) => handleOptionsClick(course.id, e)}
-                      className="p-2 hover:bg-gray-100 rounded-full"
-                    >
-                      <BsThreeDotsVertical />
-                    </button>
-                    {openMenuId === course.id && (
-                      <div className="absolute right-0 top-full mt-1 w-56 bg-white rounded-lg shadow-lg z-50 border">
-                        <div className="py-1 relative z-[99999]">
-                          <button
-                            onClick={() => handleEditCourse(course.id)}
-                            className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
-                          >
-                            <FaEdit className="text-gray-400" />
-                            Edit Course
-                          </button>
-                          <button
-                            onClick={() => handleToggleCourseStatus(course.id)}
-                            className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
-                          >
-                            <FaPowerOff className="text-gray-400" />
-                            {course.status === 'active' ? 'Inactivate Course' : 'Activate Course'}
-                          </button>
-                          <button
-                            onClick={() => handleDeleteCourse(course.id)}
-                            className="w-full px-4 py-2 text-sm text-red-600 hover:bg-gray-100 flex items-center gap-2 border-t"
-                          >
-                            <FaTrash className="text-red-600" />
-                            Delete Course
-                          </button>
-                        </div>
+                  </td>
+                  <td className="px-4 py-3">{course.category_title}</td>
+                  <td className="px-4 py-3">
+                    Enrollment History: {course.people_enrolled}
+                  </td>
+                  <td className="px-4 py-3">
+                    <span className={`px-2 py-1 rounded-full text-sm ${course.status === 'active' ? 'bg-green-100 text-green-800' :
+                      course.status === 'pending' ? 'bg-blue-100 text-blue-800' :
+                        'bg-gray-100 text-red-800'
+                      }`}>
+                      {course.status}
+                    </span>
+                  </td>
+                  <td className="px-4 py-3">
+                    {course.pricing_type === "free" ? (
+                      'Free'
+                    ) : (
+                      <div className='flex items-center gap-2'>
+                        {
+                          course.discount_price === 0 ? (
+                            <div> ₹ {course.price}</div>
+                          ) : <div>{course.discount_price}</div>
+                        }
+
+                        {course.discount_price !== 0 && (
+                          <span className="text-gray-400 line-through ml-2">
+                            ₹ {course.price}
+                          </span>
+                        )}
                       </div>
                     )}
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+                  </td>
+                  <td className="px-4 py-3 relative">
+                    <div className="relative">
+                      <button
+                        onClick={(e) => handleOptionsClick(course.id, e)}
+                        className="p-2 hover:bg-gray-100 rounded-full"
+                      >
+                        <BsThreeDotsVertical />
+                      </button>
+                      {openMenuId === course.id && (
+                        <div className="absolute right-0 top-full mt-1 w-56 bg-white rounded-lg shadow-lg z-50 border">
+                          <div className="py-1 relative z-[99999]">
+                            <button
+                              onClick={() => handleEditCourse(course.id)}
+                              className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
+                            >
+                              <FaEdit className="text-gray-400" />
+                              Edit Course
+                            </button>
+                            <button
+                              onClick={() => handleToggleCourseStatus(course.id)}
+                              className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
+                            >
+                              <FaPowerOff className="text-gray-400" />
+                              {course.status === 'active' ? 'Inactivate Course' : 'Activate Course'}
+                            </button>
+                            <button
+                              onClick={() => handleDeleteCourse(course.id)}
+                              className="w-full px-4 py-2 text-sm text-red-600 hover:bg-gray-100 flex items-center gap-2 border-t"
+                            >
+                              <FaTrash className="text-red-600" />
+                              Delete Course
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
 
       {/* Pagination */}
       <div className="flex justify-between items-center mt-4 px-4">

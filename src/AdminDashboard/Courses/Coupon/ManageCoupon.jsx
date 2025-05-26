@@ -28,10 +28,91 @@ const dummyCoupons = [
   { id: 15, code: 'SUMMER10', discount: 10, discountType: 'percent', expiry: '2024-09-01', status: 'active' },
 ];
 
+const ManageCouponSkeleton = () => {
+  return (
+    <div className='bg-gray-50 w-full'>
+      <Nav />
+      <Bannertemp value={"Dashboard"} />
+      <div className='flex flex-col lg:flex-row gap-6 p-4 lg:p-6'>
+        <div className='lg:w-72'>
+          <Sidebar col={"bg-purple-100 hover:bg-purple-100 text-[#020A47] font-bold"} />
+        </div>
+
+        {/* Manage section skeleton */}
+        <div className="p-6 w-full">
+          {/* Header Section */}
+          <div className="flex justify-between items-center mb-6">
+            <div className="h-8 w-32 bg-gray-300 rounded-lg animate-pulse"></div>
+            <div className="h-10 w-36 bg-gray-300 rounded-lg animate-pulse"></div>
+          </div>
+
+          {/* Search Section */}
+          <div className="flex flex-col sm:flex-row justify-between items-center mb-4 gap-4">
+            <div className="w-full sm:w-auto flex gap-2">
+              <div className="h-10 w-64 bg-gray-300 rounded-lg animate-pulse"></div>
+              <div className="h-10 w-24 bg-gray-300 rounded-lg animate-pulse"></div>
+            </div>
+          </div>
+
+          {/* Table Section */}
+          <div className="bg-white rounded-lg shadow drop-shadow-sm">
+            <table className="w-full">
+              <thead className="bg-gray-50">
+                <tr>
+                  {[1, 2, 3, 4, 5, 6].map((index) => (
+                    <th key={index} className="px-4 py-3">
+                      <div className="h-5 w-20 bg-gray-300 rounded animate-pulse"></div>
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {[1, 2, 3, 4, 5].map((rowIndex) => (
+                  <tr key={rowIndex} className="border-t">
+                    <td className="px-4 py-3">
+                      <div className="h-5 w-6 bg-gray-300 rounded animate-pulse"></div>
+                    </td>
+                    <td className="px-4 py-3">
+                      <div className="h-5 w-32 bg-gray-300 rounded animate-pulse"></div>
+                    </td>
+                    <td className="px-4 py-3">
+                      <div className="h-5 w-20 bg-gray-300 rounded animate-pulse"></div>
+                    </td>
+                    <td className="px-4 py-3">
+                      <div className="h-5 w-28 bg-gray-300 rounded animate-pulse"></div>
+                    </td>
+                    <td className="px-4 py-3">
+                      <div className="h-6 w-20 bg-gray-300 rounded-full animate-pulse"></div>
+                    </td>
+                    <td className="px-4 py-3">
+                      <div className="h-8 w-8 bg-gray-300 rounded-full animate-pulse"></div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Pagination Skeleton */}
+          <div className="flex justify-between items-center mt-4 px-4">
+            <div className="h-5 w-48 bg-gray-300 rounded animate-pulse"></div>
+            <div className="flex gap-2">
+              {[1, 2, 3].map((index) => (
+                <div key={index} className="h-8 w-8 bg-gray-300 rounded animate-pulse"></div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const ManageCoupon = () => {
   const [coupons, setCoupons] = useState([]);
   const [search, setSearch] = useState('');
   const [openMenuId, setOpenMenuId] = useState(null);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   // Pagination state
@@ -56,9 +137,15 @@ const ManageCoupon = () => {
 
   useEffect(() => {
     (async () => {
-      const response = await apiService.course.getALLCoupenCode()
-      if (response.status) {
-        setCoupons(response.data)
+      try {
+        const response = await apiService.course.getALLCoupenCode()
+        if (response.status) {
+          setCoupons(response.data)
+        }
+      } catch (error) {
+        console.error("Error fetching coupons:", error);
+      } finally {
+        setLoading(false);
       }
     })()
   }, [])
@@ -114,6 +201,10 @@ const ManageCoupon = () => {
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
+
+  if (loading) {
+    return <ManageCouponSkeleton />;
+  }
 
   return (
     <div className='bg-gray-50 w-full'>

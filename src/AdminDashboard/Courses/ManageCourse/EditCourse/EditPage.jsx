@@ -432,7 +432,7 @@ const EditPage = () => {
 
 
             <h2 className="text-2xl font-bold mb-4">Course Curriculum</h2>
-            <div className="mb-6">
+            <div className="mb-6 cursor-grabbing">
               {curriculum.map((item, index) => (
                 <DraggableItem
                   key={item.id}

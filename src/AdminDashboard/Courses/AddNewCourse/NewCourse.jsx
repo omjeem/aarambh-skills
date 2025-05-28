@@ -4,6 +4,7 @@ import 'react-quill/dist/quill.snow.css';
 import { authToken } from '../../../utils/constants';
 import axios from 'axios';
 import envConfig from '../../../utils/envConfig';
+import { useNavigate } from 'react-router-dom';
 
 const NewCourse = () => {
   const [formData, setFormData] = useState({
@@ -29,6 +30,7 @@ const NewCourse = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const navigate = useNavigate()
 
 
   useEffect(() => {
@@ -49,7 +51,7 @@ const NewCourse = () => {
     fetchCatagories()
   }, [])
 
-  console
+ 
 
 
 
@@ -82,6 +84,7 @@ const NewCourse = () => {
     setLoading(true);
     setError(null);
 
+
     try {
       const formDataToSend = new FormData();
       Object.keys(formData).forEach(key => {
@@ -106,7 +109,8 @@ const NewCourse = () => {
       }
 
       // Handle success (e.g., redirect or show success message)
-      console.log('Course created successfully:', data);
+  
+      navigate('/admin/dashboard/manageCourse')
     } catch (err) {
       setError(err.message);
     } finally {

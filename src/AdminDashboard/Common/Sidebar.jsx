@@ -1,17 +1,20 @@
 import { useEffect, useState } from "react";
 import { AiOutlineProject } from "react-icons/ai";
 import { FaGraduationCap, FaUsers, FaBook, FaHeart, FaCog, FaHistory, FaUser, FaComments, FaMoneyBill, FaShoppingCart, FaCommentDots, FaHome, FaChartBar, FaChevronDown, FaChevronRight, FaList, FaPlus, FaQuestionCircle, FaProjectDiagram, FaTasks, FaClipboardList, FaRegNewspaper } from "react-icons/fa";
-import { HiMiniDocumentCurrencyRupee } from "react-icons/hi2";
-import { PiCertificateFill } from "react-icons/pi";
-import { RiShareForwardBoxLine, RiVideoAddLine } from "react-icons/ri";
+import { HiMiniDocumentCurrencyRupee, HiUsers } from "react-icons/hi2";
+import { PiCertificateFill, PiStudentBold } from "react-icons/pi";
+import { RiAdminFill, RiShareForwardBoxLine, RiVideoAddLine } from "react-icons/ri";
 import { useNavigate, useLocation } from "react-router-dom";
 import { IoMenu, IoClose } from "react-icons/io5";
 import { MdAddchart } from "react-icons/md";
-import { BiSolidDiscount, BiSolidLayer } from "react-icons/bi";
+import { BiCategory, BiSolidDiscount, BiSolidLayer } from "react-icons/bi";
+import envConfig from '../../utils/envConfig';
+import { GiArcheryTarget } from "react-icons/gi";
 
 const Sidebar = ({ col }) => {
   const [user, setUser] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [isOpenuser, setIsOpenuser] = useState(false);
   const [isCourseOpen, setIsCourseOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
@@ -19,7 +22,7 @@ const Sidebar = ({ col }) => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await fetch('https://arambhskills.onrender.com/user/get_user', {
+        const response = await fetch(`${envConfig.backendUrl}/user/get_user`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -60,7 +63,7 @@ const Sidebar = ({ col }) => {
   };
 
   return (
-    <div className="overflow-auto w-72 h-screen">
+    <div className="overflow-auto xl:w-[300px] lg:h-screen ">
       {/* Mobile Menu Button */}
       <button
         onClick={() => setIsOpen(true)}
@@ -112,7 +115,7 @@ const Sidebar = ({ col }) => {
 
             <li onClick={() => handleNavigation('/admin/dashboard/category')}
               className={`flex items-center space-x-3 text-[#020A47] hover:bg-gray-100 p-3 rounded-lg cursor-pointer transition-colors ${location.pathname === '/admin/dashboard/category' ? col : ''}`}>
-              <FaUser className="text-lg" />
+              <BiCategory className="text-lg" />
               <span className="text-base font-medium">Category</span>
             </li>
 
@@ -120,7 +123,7 @@ const Sidebar = ({ col }) => {
               <li onClick={() => setIsCourseOpen(!isCourseOpen)}
                 className={`flex items-center justify-between p-3 rounded-lg hover:bg-gray-100 cursor-pointer transition-colors ${location.pathname.includes('/admin/dashboard/courses') ? col : ''}`}>
                 <div className="flex items-center space-x-3">
-                  <FaBook className="text-lg" />
+                  <FaBook className="text-md" />
                   <span className="text-base font-medium">Courses</span>
                 </div>
                 {isCourseOpen ? <FaChevronDown className="text-sm" /> : <FaChevronRight className="text-sm" />}
@@ -168,6 +171,13 @@ const Sidebar = ({ col }) => {
               <span className="text-base font-medium">Course Bundle</span>
             </li>
 
+            <li onClick={() => handleNavigation('/admin/dashboard/practice')}
+              className={`flex items-center space-x-3 text-[#020A47] hover:bg-gray-100 p-3 rounded-lg cursor-pointer transition-colors ${location.pathname === '/admin/dashboard/practice' ? col : ''}`}>
+             <GiArcheryTarget className="text-xl" />
+              <span className="text-base font-medium">Practice</span>
+            </li>
+
+
             <li onClick={() => handleNavigation('/admin/dashboard/students')}
               className={`flex items-center space-x-3 text-[#020A47] hover:bg-gray-100 p-3 rounded-lg cursor-pointer transition-colors ${location.pathname === '/admin/dashboard/students' ? col : ''}`}>
               <FaUsers className="text-lg" />
@@ -182,6 +192,32 @@ const Sidebar = ({ col }) => {
               <span className="text-base font-medium">Payment History</span>
             </li>
 
+            <div className="relative">
+              <li onClick={() => setIsOpenuser(!isOpenuser)}
+                className={`flex items-center justify-between p-3 rounded-lg hover:bg-gray-100 cursor-pointer transition-colors ${location.pathname.includes('/admin/dashboard/users/students') ? col : ''}`}>
+                <div className="flex items-center space-x-3">
+                <HiUsers className="text-md" />
+                  <span className="text-base font-medium">Users</span>
+                </div>
+                {isOpenuser ? <FaChevronDown className="text-sm" /> : <FaChevronRight className="text-sm" />}
+              </li>
+
+              {isOpenuser && (
+                <ul className="pl-12 mt-2 space-y-2 border-l-2 border-gray-200">
+                  <li onClick={() => handleNavigation('/admin/dashboard/users/admin')}
+                    className={`flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer transition-colors ${location.pathname === '/admin/dashboard/users/admin' ? 'text-[#020A47]' : ''}`}>
+                    <RiAdminFill className="text-base" />
+                    <span className="text-sm font-medium">Admin</span>
+                  </li>
+                  <li onClick={() => handleNavigation('/admin/dashboard/users/students')}
+                    className={`flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer transition-colors ${location.pathname === '/admin/dashboard/users/students' ? 'text-[#020A47]' : ''}`}>
+                    <PiStudentBold  className="text-base" />
+                    <span className="text-sm font-medium">Student</span>
+                  </li>
+                </ul>
+              )}
+            </div>
+
             <li onClick={() => handleNavigation('/admin/dashboard/newsletter')}
               className={`flex items-center space-x-3 text-[#020A47] hover:bg-gray-100 p-3 rounded-lg cursor-pointer transition-colors ${location.pathname === '/admin/dashboard/newsletter' ? col : ''}`}>
               <FaRegNewspaper className="text-lg" />
@@ -194,11 +230,7 @@ const Sidebar = ({ col }) => {
               <span className="text-base font-medium">Settings</span>
             </li>
 
-            <li onClick={() => handleNavigation('/admin/dashboard/projects')}
-              className={`flex items-center space-x-3 text-[#020A47] hover:bg-gray-100 p-3 rounded-lg cursor-pointer transition-colors ${location.pathname === '/admin/dashboard/projects' ? col : ''}`}>
-              <AiOutlineProject className="text-xl" />
-              <span className="text-base font-medium">My Projects</span>
-            </li>
+       
 
             <li onClick={() => handleNavigation('/admin/dashboard/wishlist')}
               className={`flex items-center space-x-3 text-[#020A47] hover:bg-gray-100 p-3 rounded-lg cursor-pointer transition-colors ${location.pathname === '/admin/dashboard/wishlist' ? col : ''}`}>

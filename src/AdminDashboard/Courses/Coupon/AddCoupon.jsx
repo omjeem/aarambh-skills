@@ -5,9 +5,40 @@ import Bannertemp from '../../../components/AboutPage/Bannertemp';
 import Sidebar from '../../Common/Sidebar';
 import apiServices from "../../../api/index"
 
+const AddCouponSkeleton = () => {
+  return (
+    <div className='bg-gray-50'>
+      <Nav />
+      <Bannertemp value={"Dashboard"} />
+      <div className='flex flex-col lg:flex-row gap-6 p-4 lg:p-6'>
+        <div className='lg:w-72'>
+          <Sidebar col={"bg-purple-100 hover:bg-purple-100 text-[#020A47] font-bold"} />
+        </div>
+        <div className="p-6 w-1/2 mx-auto">
+          <div className="h-8 w-32 bg-gray-200 rounded animate-pulse mb-4"></div>
+          <div className="bg-white p-6 rounded-lg shadow space-y-4">
+            {/* Form fields skeleton */}
+            {[1, 2, 3, 4].map((index) => (
+              <div key={index}>
+                <div className="h-5 w-24 bg-gray-200 rounded animate-pulse mb-2"></div>
+                <div className="h-10 w-full bg-gray-200 rounded animate-pulse"></div>
+              </div>
+            ))}
+            {/* Buttons skeleton */}
+            <div className="flex gap-2">
+              <div className="h-10 w-32 bg-gray-200 rounded animate-pulse"></div>
+              <div className="h-10 w-24 bg-gray-200 rounded animate-pulse"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const AddCoupon = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
   const [form, setForm] = useState({
     coupon_code: '',
     discount: '',
@@ -15,6 +46,14 @@ const AddCoupon = () => {
     expiry_date: '',
     status: 'active',
   });
+
+  React.useEffect(() => {
+    // Simulate loading time
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleChange = e => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -28,14 +67,13 @@ const AddCoupon = () => {
     e.preventDefault();
     console.log(">>>>>>>>>>>>>>>>>>>>>>>>>")
     const response = await apiServices.course.createCoupenCode(form)
-    if(response.data){
-
-    }
-    // let discountDisplay = form.discountType === 'percent' ? `${form.discount} %` : `₹ ${form.discount}`;
-    // alert('Coupon added!\n' + JSON.stringify({ ...form, discount: discountDisplay }, null, 2));
-    // navigate('/admin/dashboard/coupon');
+    navigate('/admin/dashboard/coupon');
     console.log("Form is ", form)
   };
+
+  if (loading) {
+    return <AddCouponSkeleton />;
+  }
 
   return (
     <div className='bg-gray-50'>

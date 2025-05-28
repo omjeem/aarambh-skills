@@ -1,12 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { FaPlus, FaTrash, FaUpload } from 'react-icons/fa';
-import { IoMdClose } from 'react-icons/io';
 import { IoMdCheckmarkCircle } from "react-icons/io";
 import { MdError } from "react-icons/md";
 import * as XLSX from 'xlsx';
-import apiService from '../../../api';
-import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
 
 const Notification = ({ message, type }) => (
   <div
@@ -30,14 +26,14 @@ const Notification = ({ message, type }) => (
 );
 
 const Quiz = () => {
-  const [courses, setCourses] = useState([
-    { id: 1, title: "Python for Beginners" },
+  const [courses] = useState([
+    { id: 1, title: "Python " },
     { id: 2, title: "Web Development" },
     { id: 3, title: "Data Science" },
     { id: 4, title: "Machine Learning" },
-    { id: 5, title: "Mobile App Development" }
+    { id: 5, title: "PHP" }
   ]);
-  const navigate = useNavigate()
+
   const [selectedCourse, setSelectedCourse] = useState('');
   const [quizTitle, setQuizTitle] = useState('');
   const [quizLevel, setQuizLevel] = useState('low');
@@ -136,53 +132,32 @@ const Quiz = () => {
     reader.readAsArrayBuffer(file);
   };
 
-  useEffect(() => {
-    (async () => {
-      const response = await apiService.course.fetchCourse()
-      if (response.status) setCourses(response.data)
-      else toast.error(response.error)
-    })()
-  }, [])
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!selectedCourse || !quizTitle || questions.some(q => !q.question || !q.answer)) {
       showNotification('Please fill all required fields', 'error');
       return;
     }
-    navigate("/admin/dashboard/manageCourse")
-    console.log("Question is ", questions)
-    setLoading(true);
-    const questionData = questions.map((question) => {
-      return {
-        ...question,
-        title: quizTitle,
-        quize_level: quizLevel
-      }
-    })
 
-    const response = await apiService.course.uploadQuizInBulk(questionData, selectedCourse)
-    if (response.status) {
-      toast.success("Quizz Uploaded Successfully")
+    setLoading(true);
+    try {
+      // Simulate API call delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      showNotification('Quiz added successfully');
+      // Reset form
       setQuizTitle('');
+      setSelectedCourse('');
+      setQuizLevel('low');
       setQuestions([{
         question: '',
         options: ['', '', '', ''],
         answer: ''
       }]);
-    } else {
-      toast.error(response.error)
-    }
-    setLoading(false);
-
-    console.log("questionData>>>>> ", questionData, selectedCourse)
-    try {
-      // Simulate API call
-
-      // Reset form
     } catch (error) {
       showNotification('Error adding quiz', 'error');
     } finally {
+      setLoading(false);
     }
   };
 
@@ -199,7 +174,7 @@ const Quiz = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Select Course
+                Select Topic
               </label>
               <select
                 value={selectedCourse}
@@ -207,7 +182,7 @@ const Quiz = () => {
                 className="w-full p-2  border border-gray-300 rounded-md focus:ring-2 focus:ring-[#020A47] focus:border-[#020A47]"
                 required
               >
-                <option value="">Select a course</option>
+                <option value="">Select a Topic</option>
                 {courses.map(course => (
                   <option key={course.id} value={course.id}>
                     {course.title}

@@ -3,13 +3,14 @@ import { GoPlus } from 'react-icons/go';
 import { FaUpload } from 'react-icons/fa';
 import apiService from '../../../api';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 const VideoContent = () => {
   const [selectedCourse, setSelectedCourse] = useState('');
   const [videos, setVideos] = useState([{ title: '', description: '', video_url: "" }]);
   const [courses, setCourses] = useState([])
   const [isLoading, setIsLoading] = useState(false)
-
+  const navigate = useNavigate()
   const handleCourseChange = (e) => {
     setSelectedCourse(e.target.value);
   };
@@ -67,6 +68,7 @@ const VideoContent = () => {
       toast.error(response.error)
     }
     console.log('Submitting videos:', videos);
+    navigate("/admin/dashboard/manageCourse")
   };
   console.log("is loading , ", isLoading)
   return (

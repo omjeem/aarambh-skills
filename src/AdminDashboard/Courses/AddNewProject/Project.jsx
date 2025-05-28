@@ -4,6 +4,7 @@ import { IoMdClose } from 'react-icons/io';
 import { IoMdCheckmarkCircle } from "react-icons/io";
 import { MdError } from "react-icons/md";
 import apiService from '../../../api';
+import { useNavigate } from 'react-router-dom';
 
 const Notification = ({ message, type }) => (
   <div
@@ -36,6 +37,7 @@ const Project = () => {
   const [projectFiles, setProjectFiles] = useState([]);
   const [notification, setNotification] = useState({ message: '', type: '', show: false });
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate()
 
   const showNotification = (message, type = 'success') => {
     setNotification({ message, type, show: true });
@@ -68,6 +70,7 @@ const Project = () => {
     e.preventDefault();
     if (!selectedCourse || !projectTitle || !projectDescription) {
       showNotification('Please fill all required fields', 'error');
+      navigate("/admin/dashboard/manageCourse")
       return;
     }
 

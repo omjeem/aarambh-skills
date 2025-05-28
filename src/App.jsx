@@ -53,6 +53,15 @@ import AddCoupon from './AdminDashboard/Courses/Coupon/AddCoupon.jsx';
 import EditCoupon from './AdminDashboard/Courses/Coupon/EditCoupon.jsx';
 import ManageBundles from './AdminDashboard/CourseBundle/ManageBundles.jsx';
 import ManageSubscribers from './AdminDashboard/CourseBundle/ManageSubscribers.jsx';
+import UsersStudents from './AdminDashboard/Users/Students/Students.jsx';
+import UsersAddStudent from './AdminDashboard/Users/Students/AddStudent.jsx';
+import UsersEditStudent from './AdminDashboard/Users/Students/EditStudent.jsx';
+import Admin from './AdminDashboard/Users/Admin/Admin.jsx';
+import AddAdmin from './AdminDashboard/Users/Admin/AddAdmin.jsx';
+import EditAdmin from './AdminDashboard/Users/Admin/EditAdmin.jsx';
+import AssignPermission from './AdminDashboard/Users/Admin/Assignpermission.jsx';
+import EditBundle from './AdminDashboard/CourseBundle/EditBundle.jsx';
+import PracticePage from './AdminDashboard/PracticePage/PracticePage.jsx';
 
 const App = () => {
   const [cartCount, setCartCount] = useState(0);
@@ -118,6 +127,7 @@ const App = () => {
             <Route path="/admin/dashboard/students/add" element={<AddStudent />} />
             <Route path="/admin/dashboard/students/Edit" element={<EditStudent />} />
             <Route path="/admin/dashboard/bundle/add" element={<CourseBundle />} />
+            <Route path="/admin/dashboard/bundle/edit/:id" element={<EditBundle />} />
             <Route path="/admin/dashboard/bundle/manage" element={<ManageBundles />} />
             <Route path="/admin/dashboard/paymenthistory" element={<PaymentPage />} />
             <Route path="/admin/dashboard/newsletter" element={<NewsLetter />} />
@@ -125,6 +135,15 @@ const App = () => {
             <Route path="/admin/dashboard/coupon/add" element={<AddCoupon />} />
             <Route path="/admin/dashboard/coupon/edit/:id" element={<EditCoupon />} />
             <Route path="/admin/dashboard/subscriber" element={<ManageSubscribers />} />
+            <Route path="/admin/dashboard/users/students" element={<UsersStudents />} />
+            <Route path="/admin/dashboard/users/students/add" element={<UsersAddStudent />} />
+            <Route path="/admin/dashboard/users/students/edit" element={<UsersEditStudent />} />
+            <Route path="/admin/dashboard/users/admin" element={<Admin />} />
+            <Route path="/admin/dashboard/users/admin/add" element={<AddAdmin />} />
+            <Route path="/admin/dashboard/users/admin/edit" element={<EditAdmin />} />
+            <Route path="/admin/dashboard/users/admin/assignpermission" element={<AssignPermission />} />
+            <Route path="/admin/dashboard/practice" element={<PracticePage />} />
+
 
 
           </Routes>

@@ -20,16 +20,53 @@ import apiService from '../../api';
 //   },
 //   { id: 2, title: 'Complete Solution', course_titles: ['Scorm drawing course', 'Complete Blender Creator: Learn 3D Modelling', 'Basic to advanced sewing course for beginners'], subscriptionLimit: '500 Days', price: '₹500', status: 'active' },
 //   { id: 3, title: 'Complete study for Vue JS', course_titles: ['Complete Guitar Lessons System', 'Build Websites from Scratch with HTML & CSS', 'Introduction and Learn bootstrap'], subscriptionLimit: '700 Days', price: '₹320', status: 'active' },
-//   { id: 4, title: 'Complete Wordpress development', course_titles: ['WordPress Theme Development with Bootstrap', 'Complete Guitar Lessons System'], subscriptionLimit: '365 Days', price: '₹400', status: 'active' },
+//   { id: 4, title: 'Complete wordpress development', course_titles: ['WordPress Theme Development with Bootstrap', 'Complete Guitar Lessons System'], subscriptionLimit: '365 Days', price: '₹400', status: 'active' },
 //   { id: 5, title: 'Grow your creativity', course_titles: ['Complete Blender Creator: Learn 3D Modelling', 'Basic to advanced sewing course for beginners', 'How to Use Lighting Design to Transform your Home', 'The Complete Python Bootcamp From Zero to Hero'], subscriptionLimit: '600 Days', price: '₹375', status: 'active' },
 //   { id: 6, title: 'Web design and web development', course_titles: ['Build Websites from Scratch with HTML & CSS', 'Introduction and Learn bootstrap'], subscriptionLimit: '600 Days', price: '₹300', status: 'active' },
 //   // Add more dummy data for pagination if needed
 // ];
 
+const TableSkeleton = () => {
+  return (
+    <div className="bg-white rounded-lg shadow drop-shadow-sm">
+      <table className="w-full">
+        <thead className="bg-gray-50">
+          <tr>
+            {[1, 2, 3, 4, 5, 6, 7].map((index) => (
+              <th key={index} className="px-4 py-3">
+                <div className="h-4 w-20 bg-gray-300 rounded animate-pulse"></div>
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {[1, 2, 3, 4, 5].map((rowIndex) => (
+            <tr key={rowIndex} className="border-t">
+              {[1, 2, 3, 4, 5, 6, 7].map((colIndex) => (
+                <td key={colIndex} className="px-4 py-3">
+                  {colIndex === 3 ? (
+                    <div className="space-y-2">
+                      <div className="h-4 w-24 bg-gray-300 rounded animate-pulse"></div>
+                      <div className="h-4 w-32 bg-gray-300 rounded animate-pulse"></div>
+                    </div>
+                  ) : (
+                    <div className="h-4 w-24 bg-gray-300 rounded animate-pulse"></div>
+                  )}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
 const ManageBundles = () => {
   const [bundles, setBundles] = useState([]);
   const [search, setSearch] = useState('');
   const [openMenuId, setOpenMenuId] = useState(null);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   // Pagination state
@@ -38,10 +75,16 @@ const ManageBundles = () => {
 
   useEffect(() => {
     (async () => {
-      const response = await apiService.course.getALLBundles()
-      if (response.status) {
-        console.log("Response is ", response.data)
-        setBundles(response.data)
+      try {
+        const response = await apiService.course.getALLBundles()
+        if (response.status) {
+          console.log("Response is ", response.data)
+          setBundles(response.data)
+        }
+      } catch (error) {
+        console.error("Error fetching bundles:", error)
+      } finally {
+        setLoading(false)
       }
     })()
   }, [])
@@ -154,76 +197,81 @@ const ManageBundles = () => {
               <button onClick={handleSearchClick} className="px-4 py-2 bg-[#020A47] text-white rounded-lg">Search</button>
             </div>
           </div>
-          <div className=" bg-white rounded-lg shadow drop-shadow-sm">
-            <table className="w-full">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th className="px-4 py-3 text-left">#</th>
-                  <th className="px-4 py-3 text-left">Bundle</th>
-                  <th className="px-4 py-3 text-left">Courses</th>
-                  <th className="px-4 py-3 text-left">Subscription limit</th>
-                  <th className="px-4 py-3 text-left">Price</th>
-                  <th className="px-4 py-3 text-left">Status</th>
-                  <th className="px-4 py-3 text-left">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {currentItems.map((bundle, idx) => (
-                  <tr key={bundle.id} className="border-t">
-                    <td className="px-4 py-3">{indexOfFirstItem + idx + 1}</td>
-                    <td className="px-4 py-3 font-medium">{bundle.title}</td>
-                    <td className="px-4 py-3">
-                      <ul>
-                        {bundle.course_titles.map((course, courseIdx) => (
-                          <li key={courseIdx} className="list-disc list-inside">{course}</li>
-                        ))}
-                      </ul>
-                    </td>
-                    <td className="px-4 py-3">{bundle.subscriptionLimit || "365 Days"}</td>
-                    <td className="px-4 py-3">{bundle.price}</td>
-                    <td className="px-4 py-3">
-                      <span className={`px-2 py-1 rounded-full text-sm ${bundle.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>{bundle.status}</span>
-                    </td>
-                    <td className="px-4 py-3 relative">
-                      <div className="relative">
-                        <button
-                          onClick={e => handleOptionsClick(bundle.id, e)}
-                          className="p-2 hover:bg-gray-100 rounded-full"
-                        >
-                          <BsThreeDotsVertical />
-                        </button>
-                        {openMenuId === bundle.id && (
-                          <div className="absolute right-0 top-full mt-1 w-40 bg-white rounded-lg shadow-lg z-[99999] border">
-                            <div className="py-1">
-                              <button
-                                onClick={() => handleToggleStatus(bundle.id)}
-                                className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 text-left"
-                              >
-                                {bundle.status === 'active' ? 'Inctivate' : 'Activate'}
-                              </button>
-                              <button
-                                onClick={() => handleEdit(bundle.id)}
-                                className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 text-left"
-                              >
-                                Edit
-                              </button>
-                              <button
-                                onClick={() => handleDelete(bundle.id)}
-                                className="w-full px-4 py-2 text-sm text-red-600 hover:bg-gray-100 text-left border-t"
-                              >
-                                Delete
-                              </button>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
 
-          </div>
+          {loading ? (
+            <TableSkeleton />
+          ) : (
+            <div className="bg-white rounded-lg shadow drop-shadow-sm">
+              <table className="w-full">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th className="px-4 py-3 text-left">#</th>
+                    <th className="px-4 py-3 text-left">Bundle</th>
+                    <th className="px-4 py-3 text-left">Courses</th>
+                    <th className="px-4 py-3 text-left">Subscription limit</th>
+                    <th className="px-4 py-3 text-left">Price</th>
+                    <th className="px-4 py-3 text-left">Status</th>
+                    <th className="px-4 py-3 text-left">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {currentItems.map((bundle, idx) => (
+                    <tr key={bundle.id} className="border-t">
+                      <td className="px-4 py-3">{indexOfFirstItem + idx + 1}</td>
+                      <td className="px-4 py-3 font-medium">{bundle.title}</td>
+                      <td className="px-4 py-3">
+                        <ul>
+                          {bundle.course_titles.map((course, courseIdx) => (
+                            <li key={courseIdx} className="list-disc list-inside">{course}</li>
+                          ))}
+                        </ul>
+                      </td>
+                      <td className="px-4 py-3">{bundle.subscriptionLimit || "365 Days"}</td>
+                      <td className="px-4 py-3">{bundle.price}</td>
+                      <td className="px-4 py-3">
+                        <span className={`px-2 py-1 rounded-full text-sm ${bundle.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>{bundle.status}</span>
+                      </td>
+                      <td className="px-4 py-3 relative">
+                        <div className="relative">
+                          <button
+                            onClick={e => handleOptionsClick(bundle.id, e)}
+                            className="p-2 hover:bg-gray-100 rounded-full"
+                          >
+                            <BsThreeDotsVertical />
+                          </button>
+                          {openMenuId === bundle.id && (
+                            <div className="absolute right-0 top-full mt-1 w-40 bg-white rounded-lg shadow-lg z-[99999] border">
+                              <div className="py-1">
+                                <button
+                                  onClick={() => handleToggleStatus(bundle.id)}
+                                  className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 text-left"
+                                >
+                                  {bundle.status === 'active' ? 'Inctivate' : 'Activate'}
+                                </button>
+                                <button
+                                  onClick={() => handleEdit(bundle.id)}
+                                  className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 text-left"
+                                >
+                                  Edit
+                                </button>
+                                <button
+                                  onClick={() => handleDelete(bundle.id)}
+                                  className="w-full px-4 py-2 text-sm text-red-600 hover:bg-gray-100 text-left border-t"
+                                >
+                                  Delete
+                                </button>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+
           {/* Pagination Controls */}
           {totalPages > 0 && (
             <div className="flex justify-between items-center mt-4 px-4">

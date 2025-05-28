@@ -1,30 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { FaPaperPlane, FaEdit, FaTrash, FaPlus, FaChevronDown } from 'react-icons/fa';
-
-const dummyNewsletters = [
-  {
-    id: 1,
-    subject: 'Unlock Your Potential with 50% Off on Our UI/UX course',
-    description:
-      "Are you ready to take your skills to the next level? Now is the perfect time! For a limited time only, we're offering an exclusive 50% discount on all our online courses. Whether you're looking to master UI/UX design, dive into data science, or learn the fundamentals of Adobe Illustrator, our comprehensive courses are designed to help you succeed. Don't miss out on this incredible opportunity to enhance your knowledge and boost your career. Enroll today and start learning from industry experts at half the price. Use code...",
-  },
-  {
-    id: 2,
-    subject: 'Startup Spotlight: Innovation and Entrepreneurship',
-    description:
-      'Discover the latest trends in the startup world. Learn from successful entrepreneurs and get inspired to start your own journey. Our newsletter brings you exclusive interviews, tips, and resources to fuel your entrepreneurial spirit.',
-  },
-  {
-    id: 3,
-    subject: 'Academy News: The Future of Learning',
-    description:
-      'Stay updated with the latest news and updates from our academy. Explore new courses, upcoming events, and community highlights. Be a part of the future of learning with us!',
-  },
-];
+import envConfig from '../../utils/envConfig';
+import toast from 'react-hot-toast';
 
 const ManageLetters = () => {
-  const [newsletters, setNewsletters] = useState(dummyNewsletters);
+  const [newsletters, setNewsletters] = useState([]);
   const [expandedId, setExpandedId] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [newSubject, setNewSubject] = useState('');
@@ -33,6 +14,43 @@ const ManageLetters = () => {
   const [editId, setEditId] = useState(null);
   const [editSubject, setEditSubject] = useState('');
   const [editDescription, setEditDescription] = useState('');
+  const [loading, setLoading] = useState(true);
+
+  // Fetch newsletters
+  useEffect(() => {
+    const fetchNewsletters = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          toast.error('Please login to view newsletters');
+          setLoading(false);
+          return;
+        }
+
+        const response = await fetch(`${envConfig.backendUrl}/courses/admin/get_newsletter`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+
+        const data = await response.json();
+        
+        if (response.ok && data.status) {
+          setNewsletters(data.data);
+        } else {
+          toast.error(data.message || 'Failed to fetch newsletters');
+        }
+      } catch (error) {
+        console.error('Error fetching newsletters:', error);
+        toast.error('An error occurred while fetching newsletters');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchNewsletters();
+  }, []);
 
   // Accordion expand/collapse
   const handleExpand = (id) => {
@@ -40,18 +58,53 @@ const ManageLetters = () => {
   };
 
   // Add newsletter
-  const handleAddNewsletter = (e) => {
+  const handleAddNewsletter = async (e) => {
     e.preventDefault();
-    if (!newSubject.trim() || !newDescription.trim()) return;
-    const newLetter = {
-      id: newsletters.length + 1,
-      subject: newSubject,
-      description: newDescription,
-    };
-    setNewsletters([newLetter, ...newsletters]);
-    setShowModal(false);
-    setNewSubject('');
-    setNewDescription('');
+    if (!newSubject.trim() || !newDescription.trim()) {
+      toast.error('Please fill in all fields');
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        toast.error('Please login to add newsletter');
+        return;
+      }
+
+      const response = await fetch(`${envConfig.backendUrl}/courses/admin/newsleter`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          subject: newSubject,
+          description: newDescription
+        })
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.status) {
+        // Add the new newsletter to the state
+        const newLetter = {
+          id: newsletters.length + 1,
+          subject: newSubject,
+          description: newDescription,
+        };
+        setNewsletters([newLetter, ...newsletters]);
+        setShowModal(false);
+        setNewSubject('');
+        setNewDescription('');
+        toast.success('Newsletter added successfully');
+      } else {
+        toast.error(data.message || 'Failed to add newsletter');
+      }
+    } catch (error) {
+      console.error('Error adding newsletter:', error);
+      toast.error('An error occurred while adding the newsletter');
+    }
   };
 
   // Edit newsletter
@@ -65,13 +118,48 @@ const ManageLetters = () => {
       setShowModal(false);
     }
   };
-  const handleEditNewsletter = (e) => {
+  const handleEditNewsletter = async (e) => {
     e.preventDefault();
-    setNewsletters(newsletters.map((n) => n.id === editId ? { ...n, subject: editSubject, description: editDescription } : n));
-    setEditModal(false);
-    setEditId(null);
-    setEditSubject('');
-    setEditDescription('');
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        toast.error('Please login to edit newsletter');
+        return;
+      }
+
+      const response = await fetch(`${envConfig.backendUrl}/courses/admin/update_newsletter/${editId}`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          subject: editSubject,
+          description: editDescription
+        })
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.status) {
+        // Update the newsletter in the state
+        setNewsletters(newsletters.map((n) => 
+          n.id === editId 
+            ? { ...n, subject: editSubject, description: editDescription }
+            : n
+        ));
+        setEditModal(false);
+        setEditId(null);
+        setEditSubject('');
+        setEditDescription('');
+        toast.success('Newsletter updated successfully');
+      } else {
+        toast.error(data.message || 'Failed to update newsletter');
+      }
+    } catch (error) {
+      console.error('Error updating newsletter:', error);
+      toast.error('An error occurred while updating the newsletter');
+    }
   };
 
   // Dummy actions
@@ -97,58 +185,64 @@ const ManageLetters = () => {
 
           {/* Newsletter List */}
           <div className="space-y-4">
-            {newsletters.length === 0 && (
-              <div className="text-center text-gray-500">No newsletters found.</div>
-            )}
-            {newsletters.map((letter, idx) => (
-              <div
-                key={letter.id}
-                className="bg-white rounded-xl shadow hover:shadow-lg transition-shadow border border-gray-100"
-              >
-                <div
-                  className="flex items-center justify-between px-4 py-3 cursor-pointer select-none"
-                  onClick={() => handleExpand(letter.id)}
-                >
-                  <div className="flex items-center gap-3">
-                    <span className="font-semibold text-[#020A47] text-base md:text-lg">
-                      {idx + 1}. {letter.subject}
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <button
-                      onClick={(e) => { e.stopPropagation(); handleSend(letter.id); }}
-                      className="p-2 rounded  text-[#020A47]"
-                      title="Send"
-                    >
-                      <FaPaperPlane />
-                    </button>
-                    <button
-                      onClick={(e) => { e.stopPropagation(); handleEdit(letter.id); }}
-                      className="p-2 rounded  text-[#020A47]"
-                      title="Edit"
-                    >
-                      <FaEdit />
-                    </button>
-                    <button
-                      onClick={(e) => { e.stopPropagation(); handleDelete(letter.id); }}
-                      className="p-2 rounded hover:bg-red-50 text-red-600"
-                      title="Delete"
-                    >
-                      <FaTrash />
-                    </button>
-                    <span className={`transition-transform duration-300 ml-2 ${expandedId === letter.id ? 'rotate-180' : 'rotate-0'}`}>
-                      <FaChevronDown />
-                    </span>
-                  </div>
-                </div>
-                {/* Description (expand/collapse) */}
-                {expandedId === letter.id && (
-                  <div className="px-6 pb-4 text-gray-700 text-sm md:text-base">
-                    {letter.description}
-                  </div>
-                )}
+            {loading ? (
+              <div className="text-center py-4">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#020A47] mx-auto"></div>
+                <p className="mt-2 text-gray-600">Loading newsletters...</p>
               </div>
-            ))}
+            ) : newsletters.length === 0 ? (
+              <div className="text-center text-gray-500">No newsletters found.</div>
+            ) : (
+              newsletters.map((letter, idx) => (
+                <div
+                  key={letter.id}
+                  className="bg-white rounded-xl shadow hover:shadow-lg transition-shadow border border-gray-100"
+                >
+                  <div
+                    className="flex items-center justify-between px-4 py-3 cursor-pointer select-none"
+                    onClick={() => handleExpand(letter.id)}
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className="font-semibold text-[#020A47] text-base md:text-lg">
+                        {idx + 1}. {letter.subject}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={(e) => { e.stopPropagation(); handleSend(letter.id); }}
+                        className="p-2 rounded text-[#020A47]"
+                        title="Send"
+                      >
+                        <FaPaperPlane />
+                      </button>
+                      <button
+                        onClick={(e) => { e.stopPropagation(); handleEdit(letter.id); }}
+                        className="p-2 rounded text-[#020A47]"
+                        title="Edit"
+                      >
+                        <FaEdit />
+                      </button>
+                      <button
+                        onClick={(e) => { e.stopPropagation(); handleDelete(letter.id); }}
+                        className="p-2 rounded hover:bg-red-50 text-red-600"
+                        title="Delete"
+                      >
+                        <FaTrash />
+                      </button>
+                      <span className={`transition-transform duration-300 ml-2 ${expandedId === letter.id ? 'rotate-180' : 'rotate-0'}`}>
+                        <FaChevronDown />
+                      </span>
+                    </div>
+                  </div>
+                  {/* Description (expand/collapse) */}
+                  {expandedId === letter.id && (
+                    <div className="px-6 pb-4 text-gray-700 text-sm md:text-base">
+                      {letter.description}
+                    </div>
+                  )}
+                </div>
+              ))
+            )}
           </div>
 
           {/* Data count */}

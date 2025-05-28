@@ -20,7 +20,7 @@ const Nav = ({ cours, about, bundle }) => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await fetch(`${envConfig.backendUrl}/user/get_user'`, {
+        const response = await fetch(`${envConfig.backendUrl}/user/get_user`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

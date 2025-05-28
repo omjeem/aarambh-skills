@@ -340,9 +340,77 @@ const AddCategoryForm = ({ onSubmit, onCancel }) => {
   );
 };
 
+const CategoryCardSkeleton = () => {
+  return (
+    <div className="relative rounded-xl overflow-hidden shadow-lg bg-white w-full max-w-sm h-[500px] animate-pulse">
+      {/* Image Skeleton */}
+      <div className="relative h-48 bg-gray-300">
+        <div className="absolute bottom-4 left-4 right-4">
+          <div className="h-6 w-32 bg-gray-400 rounded mb-2"></div>
+          <div className="h-6 w-24 bg-gray-400 rounded-full"></div>
+        </div>
+      </div>
+
+      {/* Content Skeleton */}
+      <div className="p-6">
+        <div className="mb-4">
+          <div className="h-4 w-24 bg-gray-300 rounded mb-2"></div>
+          <div className="h-4 w-full bg-gray-300 rounded"></div>
+        </div>
+        <div className="mb-4">
+          <div className="h-4 w-32 bg-gray-300 rounded mb-2"></div>
+          <div className="space-y-2">
+            {[1, 2, 3].map((index) => (
+              <div key={index} className="flex items-center gap-2">
+                <div className="h-3 w-3 bg-gray-300 rounded-full"></div>
+                <div className="h-4 w-24 bg-gray-300 rounded"></div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Footer Skeleton */}
+      <div className="absolute bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-100">
+        <div className="flex justify-center gap-4">
+          <div className="h-10 w-24 bg-gray-300 rounded"></div>
+          <div className="h-10 w-24 bg-gray-300 rounded"></div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const CategoryListSkeleton = () => {
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <div className="mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Header Skeleton */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+          <div className="flex items-center gap-3">
+            <div className="h-8 w-8 bg-gray-300 rounded"></div>
+            <div className="h-8 w-48 bg-gray-300 rounded"></div>
+          </div>
+          <div className="h-10 w-40 bg-gray-300 rounded"></div>
+        </div>
+
+        {/* Cards Grid Skeleton */}
+        <div className="flex flex-wrap justify-center sm:justify-start gap-6">
+          {[1, 2, 3, 4].map((index) => (
+            <div key={index} className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] xl:w-[calc(25%-18px)]">
+              <CategoryCardSkeleton />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const CategoryList = () => {
   const [categories, setCategories] = useState([]);
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const Addcategory = (newCategory) => {
     setCategories([...categories, { ...newCategory, count: 0, skills: [] }]);
@@ -359,13 +427,19 @@ const CategoryList = () => {
         })
         const responseData = response.data.data
         setCategories(responseData)
-        console.log("Response is >>>> ", responseData)
       } catch (error) {
         console.log("Error while fetching categories", error)
+        toast.error("Failed to fetch categories")
+      } finally {
+        setLoading(false)
       }
     }
     fetchCatagories()
   }, [])
+
+  if (loading) {
+    return <CategoryListSkeleton />;
+  }
 
   const Deletecategory = async (index) => {
     const upd = categories[index]?.id
@@ -373,9 +447,7 @@ const CategoryList = () => {
       toast.error("Please select a category to delete")
       return
     }
-    console.log(upd)
     try {
-      console.log(authToken, upd)
       const response = await axios.patch(`${envConfig.backendUrl}/courses/admin/delete_category/${upd}`, {}, {
         headers: {
           Authorization: `Bearer ${authToken}`
@@ -391,8 +463,8 @@ const CategoryList = () => {
       }
     } catch (error) {
       console.log("Error while deleting category", error)
+      toast.error("Failed to delete category")
     }
-    // setCategories(upd);
   };
 
   return (

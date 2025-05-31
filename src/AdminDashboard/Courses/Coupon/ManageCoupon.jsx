@@ -31,12 +31,9 @@ const dummyCoupons = [
 const ManageCouponSkeleton = () => {
   return (
     <div className='bg-gray-50 w-full'>
-      <Nav />
-      <Bannertemp value={"Dashboard"} />
+    
       <div className='flex flex-col lg:flex-row gap-6 p-4 lg:p-6'>
-        <div className='lg:w-72'>
-          <Sidebar col={"bg-purple-100 hover:bg-purple-100 text-[#020A47] font-bold"} />
-        </div>
+      
 
         {/* Manage section skeleton */}
         <div className="p-6 w-full">
@@ -208,12 +205,9 @@ const ManageCoupon = () => {
 
   return (
     <div className='bg-gray-50 w-full'>
-      <Nav />
-      <Bannertemp value={"Dashboard"} />
+     
       <div className='flex flex-col lg:flex-row gap-6 p-4 lg:p-6'>
-        <div className='lg:w-72'>
-          <Sidebar col={"bg-purple-100 hover:bg-purple-100 text-[#020A47] font-bold"} />
-        </div>
+      
 
         {/* Manage section  */}
         <div className="p-6 w-full">

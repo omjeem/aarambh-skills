@@ -62,6 +62,18 @@ import EditAdmin from './AdminDashboard/Users/Admin/EditAdmin.jsx';
 import AssignPermission from './AdminDashboard/Users/Admin/Assignpermission.jsx';
 import EditBundle from './AdminDashboard/CourseBundle/EditBundle.jsx';
 import PracticePage from './AdminDashboard/PracticePage/PracticePage.jsx';
+import AdminWishlist from './AdminDashboard/Wishlist/Wishlist.jsx';
+import PageBanner from './AdminDashboard/FrontCMS/PageBanner/PageBanner.jsx';
+import AboutPageContent from './AdminDashboard/FrontCMS/AboutPage/AboutPageContent.jsx';
+import Experts from './AdminDashboard/FrontCMS/Experts/Experts.jsx';
+import Partners from './AdminDashboard/FrontCMS/Partners/Partners.jsx';
+import FAQ from './AdminDashboard/FrontCMS/FAQ/FAQ.jsx'
+import WhyArambhSkills from './AdminDashboard/FrontCMS/WhyArambhSkills/Content.jsx'
+import AdminTestimonials from './AdminDashboard/FrontCMS/Testimonials/Testimonials.jsx';
+import Contact from './AdminDashboard/FrontCMS/Contact/Contact.jsx';
+
+// Import the new AdminLayout
+import AdminLayout from './AdminDashboard/AdminLayout.jsx';
 
 const App = () => {
   const [cartCount, setCartCount] = useState(0);
@@ -80,6 +92,7 @@ const App = () => {
         
         <div className="flex-grow">
           <Routes>
+            {/* Public Routes */}
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/forget-password" element={<Forgetpass />} />
@@ -95,7 +108,7 @@ const App = () => {
             <Route path="/practice" element={<ProtectedRoute element={Practice} />} />
             <Route path="/quiz/:topicName" element={<QuizPage />} />
 
-            // Dashboard routes
+            {/* Dashboard routes */}
             <Route path="/chat" element={<Chat />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/dashboard/practice" element={<DashboardPractice />} />
@@ -111,39 +124,48 @@ const App = () => {
             <Route path="/dashboard/support/ticket-details" element={<TicketDetails />} />
             <Route path="/dashboard/courses/:courseId" element={<CourseDetails />} />
 
-
-
-            // Admin Dashboard routes
-            <Route path="/admin/dashboard" element={<AdminDashboard />} />
-            <Route path="/admin/dashboard/category" element={<Category/>} />
-            <Route path="/admin/dashboard/manageCourse" element={<ManageCourse/>} />
-            <Route path="/admin/withdrawal/request" element={<Payout />} />
-            <Route path="/admin/dashboard/courses/add" element={<AddCourse />} />
-            <Route path="/admin/dashboard/quiz/add" element={<AddQuiz />} />
-            <Route path="/admin/dashboard/project/add" element={<AddProject />} />
-            <Route path="/admin/dashboard/video/add" element={<AddNewVideo />} />
-            <Route path="/admin/dashboard/courseedit" element={<EditCourse />} />
-            <Route path="/admin/dashboard/students" element={<Students />} />
-            <Route path="/admin/dashboard/students/add" element={<AddStudent />} />
-            <Route path="/admin/dashboard/students/Edit" element={<EditStudent />} />
-            <Route path="/admin/dashboard/bundle/add" element={<CourseBundle />} />
-            <Route path="/admin/dashboard/bundle/edit/:id" element={<EditBundle />} />
-            <Route path="/admin/dashboard/bundle/manage" element={<ManageBundles />} />
-            <Route path="/admin/dashboard/paymenthistory" element={<PaymentPage />} />
-            <Route path="/admin/dashboard/newsletter" element={<NewsLetter />} />
-            <Route path="/admin/dashboard/coupon" element={<ManageCoupon />} />
-            <Route path="/admin/dashboard/coupon/add" element={<AddCoupon />} />
-            <Route path="/admin/dashboard/coupon/edit/:id" element={<EditCoupon />} />
-            <Route path="/admin/dashboard/subscriber" element={<ManageSubscribers />} />
-            <Route path="/admin/dashboard/users/students" element={<UsersStudents />} />
-            <Route path="/admin/dashboard/users/students/add" element={<UsersAddStudent />} />
-            <Route path="/admin/dashboard/users/students/edit" element={<UsersEditStudent />} />
-            <Route path="/admin/dashboard/users/admin" element={<Admin />} />
-            <Route path="/admin/dashboard/users/admin/add" element={<AddAdmin />} />
-            <Route path="/admin/dashboard/users/admin/edit" element={<EditAdmin />} />
-            <Route path="/admin/dashboard/users/admin/assignpermission" element={<AssignPermission />} />
-            <Route path="/admin/dashboard/practice" element={<PracticePage />} />
-
+            {/* Admin Dashboard Layout Route */}
+            <Route path="/admin/dashboard" element={<AdminLayout />}>
+              {/* Admin Dashboard nested routes */}
+              <Route index element={<AdminDashboard />} /> {/* Admin Dashboard Home */}              
+              <Route path="category" element={<Category/>} />
+              <Route path="manageCourse" element={<ManageCourse/>} />
+              <Route path="withdrawal/request" element={<Payout />} />
+              <Route path="courses/add" element={<AddCourse />} />
+              <Route path="quiz/add" element={<AddQuiz />} />
+              <Route path="project/add" element={<AddProject />} />
+              <Route path="video/add" element={<AddNewVideo />} />
+              <Route path="courseedit" element={<EditCourse />} /> {/* Consider using dynamic segment like :id */}
+              <Route path="students" element={<Students />} />
+              <Route path="students/add" element={<AddStudent />} />
+              <Route path="students/Edit" element={<EditStudent />} /> {/* Consider using dynamic segment like :id */}
+              <Route path="bundle/add" element={<CourseBundle />} />
+              <Route path="bundle/edit/:id" element={<EditBundle />} />
+              <Route path="bundle/manage" element={<ManageBundles />} />
+              <Route path="paymenthistory" element={<PaymentPage />} />
+              <Route path="newsletter" element={<NewsLetter />} />
+              <Route path="coupon" element={<ManageCoupon />} />
+              <Route path="coupon/add" element={<AddCoupon />} />
+              <Route path="coupon/edit/:id" element={<EditCoupon />} />
+              <Route path="subscriber" element={<ManageSubscribers />} />
+              <Route path="users/students" element={<UsersStudents />} />
+              <Route path="users/students/add" element={<UsersAddStudent />} />
+              <Route path="users/students/edit" element={<UsersEditStudent />} /> {/* Consider using dynamic segment like :id */}
+              <Route path="users/admin" element={<Admin />} />
+              <Route path="users/admin/add" element={<AddAdmin />} />
+              <Route path="users/admin/edit" element={<EditAdmin />} /> {/* Consider using dynamic segment like :id */}
+              <Route path="users/admin/assignpermission" element={<AssignPermission />} />
+              <Route path="practice" element={<PracticePage />} />
+              <Route path="wishlist" element={<AdminWishlist />} />
+              <Route path="front-cms/page-banner" element={<PageBanner />} />
+              <Route path="front-cms/about-page-content" element={<AboutPageContent />} />
+              <Route path="front-cms/Experts" element={<Experts />} />
+              <Route path="front-cms/partners" element={<Partners />} />
+              <Route path="front-cms/faq" element={<FAQ />} />
+              <Route path="front-cms/WhyArambhSkills" element={<WhyArambhSkills />} />
+              <Route path="front-cms/testimonials" element={<AdminTestimonials />} />
+              <Route path="front-cms/Contact" element={<Contact />} />
+            </Route>
 
 
           </Routes>

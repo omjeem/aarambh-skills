@@ -10,12 +10,7 @@ import CourseBar from './CourseBar'
 const Dashboard = () => {
   return (
     <div className='min-h-screen bg-gray-50'>
-      <Nav/>
-      <Bannertemp value={"Dashboard"} />
       <div className='flex flex-col lg:flex-row gap-6 p-4 lg:p-6'>
-        <div className='lg:w-72'>
-          <Sidebar col={"bg-purple-100 hover:bg-purple-100 text-[#020A47] font-bold"}/>
-        </div>
         <div className='flex-1 space-y-6'>
           <div className='bg-white rounded-xl shadow-sm p-6'>
             <Overview/>
@@ -31,7 +26,8 @@ const Dashboard = () => {
               <Withdrawal/>
             </div>
           </div>
-        </div>
+    
+      </div>
       </div>
     </div>
   )

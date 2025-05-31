@@ -1,12 +1,8 @@
 import React, { useState } from 'react';
-import { FaFileExport } from 'react-icons/fa';
 import { FiFilter } from 'react-icons/fi';
-import { GoPlus } from 'react-icons/go';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
-import Nav from '../Common/Nav';
-import Bannertemp from '../../components/AboutPage/Bannertemp';
-import Sidebar from '../Common/Sidebar';
+
 
 // Dummy data for bundles (replace with actual fetch later)
 const dummyBundles = [
@@ -115,12 +111,9 @@ const ManageSubscribers = () => {
 
   return (
     <div className='bg-gray-50 w-full'>
-        <Nav/>
-        <Bannertemp value={"Dashboard"} />
+      
         <div className='flex flex-col lg:flex-row gap-6 p-4 lg:p-6'>
-          <div className='lg:w-72'>
-            <Sidebar col={"bg-purple-100 hover:bg-purple-100 text-[#020A47] font-bold"}/>
-          </div>
+        
 
          {/* Manage Subscribers section  */}
           <div className="p-6 w-full">

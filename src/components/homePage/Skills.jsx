@@ -73,13 +73,13 @@ export default function Skills({ skill }) {
         <div className="container mx-auto">
           <Swiper
             slidesPerView={1.2}
-            spaceBetween={16}
+            spaceBetween={20}
             breakpoints={{
-              640: { slidesPerView: 1.5, spaceBetween: 16 },
-              768: { slidesPerView: 1.8, spaceBetween: 6 },
+              640: { slidesPerView: 1.5, spaceBetween: 20 },
+              768: { slidesPerView: 2, spaceBetween: 20 },
               1024: { slidesPerView: 2.5, spaceBetween: 20 },
-              1440: { slidesPerView: 3.3, spaceBetween: 20 },
-              1500: { slidesPerView: 3.8, spaceBetween: 20 },
+              1440: { slidesPerView: 3, spaceBetween: 20 },
+              1500: { slidesPerView: 3.5, spaceBetween: 20 },
             }}
             className="mySwiper min-h-[50vh]"
           >
@@ -126,22 +126,21 @@ export default function Skills({ skill }) {
         {skill}
       </h1>
       <section className="w-full overflow-x-auto py-12">
-        <div className="container mx-auto">
+        <div className="container mx-auto px-4">
           <Swiper
-            slidesPerView={1.2}
-            spaceBetween={16}
+            slidesPerView={1}
+            spaceBetween={30}
             breakpoints={{
-              640: { slidesPerView: 1.5, spaceBetween: 16 },
-              768: { slidesPerView: 1.8, spaceBetween: 6 },
-              1024: { slidesPerView: 2.5, spaceBetween: 20 },
-              1440: { slidesPerView: 3.3, spaceBetween: 20 },
-              1500: { slidesPerView: 3.8, spaceBetween: 20 },
+              640: { slidesPerView: 1.5, spaceBetween: 30 },
+              768: { slidesPerView: 2, spaceBetween: 30 },
+              1024: { slidesPerView: 2, spaceBetween: 30 },
+              1280: { slidesPerView: 3, spaceBetween: 30 },
             }}
             className="mySwiper min-h-[50vh]"
           >
             {courses.map((course, index) => (
-              <SwiperSlide key={course.id} className="mb-2">
-                <div className="bg-white sm:w-[380px] relative rounded-lg shadow-md hover:shadow-lg transition duration-300">
+              <SwiperSlide key={course.id} className="mb-2 px-2">
+                <div className="bg-white w-full relative rounded-lg shadow-md hover:shadow-lg transition duration-300">
                  
                   <div
                     onClick={() => toggleHeart(index)}

@@ -8,12 +8,9 @@ import apiServices from "../../../api/index";
 const CouponListSkeleton = () => {
   return (
     <div className='bg-gray-50'>
-      <Nav />
-      <Bannertemp value={"Dashboard"} />
+    
       <div className='flex flex-col lg:flex-row gap-6 p-4 lg:p-6'>
-        <div className='lg:w-72'>
-          <Sidebar col={"bg-purple-100 hover:bg-purple-100 text-[#020A47] font-bold"} />
-        </div>
+       
         <div className="p-6 w-full">
           {/* Header Section */}
           <div className="flex justify-between items-center mb-6">
@@ -124,12 +121,9 @@ const CouponList = () => {
 
   return (
     <div className='bg-gray-50'>
-      <Nav />
-      <Bannertemp value={"Dashboard"} />
+   
       <div className='flex flex-col lg:flex-row gap-6 p-4 lg:p-6'>
-        <div className='lg:w-72'>
-          <Sidebar col={"bg-purple-100 hover:bg-purple-100 text-[#020A47] font-bold"} />
-        </div>
+       
         <div className="p-6 w-full">
           <div className="flex justify-between items-center mb-4">
             <h1 className="text-xl font-bold">Coupons</h1>

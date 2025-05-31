@@ -45,12 +45,9 @@ const EditCoupon = () => {
 
   return (
     <div className='bg-gray-50'>
-        <Nav/>
-        <Bannertemp value={"Dashboard"} />
+     
         <div className='flex flex-col lg:flex-row gap-6 p-4 lg:p-6'>
-          <div className='lg:w-72'>
-            <Sidebar col={"bg-purple-100 hover:bg-purple-100 text-[#020A47] font-bold"}/>
-          </div>
+        
           <div className="p-6 w-1/2 mx-auto">
       <h1 className="text-xl font-bold mb-4">Edit Coupon</h1>
       <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow space-y-4">

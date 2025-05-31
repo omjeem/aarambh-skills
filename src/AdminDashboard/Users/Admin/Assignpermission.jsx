@@ -1,7 +1,4 @@
 import React from 'react';
-import Nav from '../../Common/Nav';
-import Bannertemp from '../../../components/AboutPage/Bannertemp';
-import Sidebar from '../../Common/Sidebar';
 import { useNavigate } from 'react-router-dom';
 
 const AssignPermission = () => {
@@ -34,12 +31,9 @@ const AssignPermission = () => {
 
   return (
     <div className='bg-gray-50'>
-    <Nav/>
-    <Bannertemp value={"Dashboard"} />
+   
     <div className='flex flex-col relative lg:flex-row gap-6 p-4 lg:p-6'>
-      <div className='lg:w-72 '>
-        <Sidebar col={"bg-purple-100 hover:bg-purple-100 text-[#020A47] font-bold"}/>
-      </div>
+     
       <div className='w-1/2 m-auto '>
       <div className="flex justify-between items-center mb-5 border-b pb-4 border-gray-200">
         <h2 className="text-xl font-semibold">Admin Permissions</h2>

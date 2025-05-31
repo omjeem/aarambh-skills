@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-
 import { FaPaperPlane, FaEdit, FaTrash, FaPlus, FaChevronDown } from 'react-icons/fa';
 import envConfig from '../../utils/envConfig';
 import toast from 'react-hot-toast';
@@ -186,10 +185,24 @@ const ManageLetters = () => {
           {/* Newsletter List */}
           <div className="space-y-4">
             {loading ? (
-              <div className="text-center py-4">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#020A47] mx-auto"></div>
-                <p className="mt-2 text-gray-600">Loading newsletters...</p>
-              </div>
+              // Skeleton Loading
+              Array.from({ length: 5 }).map((_, index) => (
+                <div key={index} className="bg-white rounded-xl shadow animate-pulse border border-gray-100 p-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="h-6 bg-gray-300 rounded w-48"></div>
+                    </div>
+                    <div className="flex items-center gap-4">
+                       <div className="h-6 bg-gray-300 rounded w-6"></div>
+                       <div className="h-6 bg-gray-300 rounded w-6"></div>
+                       <div className="h-6 bg-gray-300 rounded w-6"></div>
+                       <div className="h-6 bg-gray-300 rounded w-6"></div>
+                    </div>
+                  </div>
+                   <div className="mt-4 h-4 bg-gray-300 rounded w-full"></div>
+                   <div className="mt-2 h-4 bg-gray-300 rounded w-5/6"></div>
+                </div>
+              ))
             ) : newsletters.length === 0 ? (
               <div className="text-center text-gray-500">No newsletters found.</div>
             ) : (

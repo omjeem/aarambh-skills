@@ -24,7 +24,7 @@ const Withdrawal = () => {
     <div className='w-full'>
     <div className='flex justify-between items-center p-4 '>
     <h2 className="text-2xl font-bold text-[#020A47] mb-6">Requested Withdrawal</h2>
-    <Link to="/admin/withdrawal/request" className=" bg-[#020A47] text-white px-4 py-2 rounded-md">Payout</Link>
+    <Link to="/admin/dashboard/withdrawal/request" className=" bg-[#020A47] text-white px-4 py-2 rounded-md">Payout</Link>
     </div>
       <div className="bg-white rounded-xl shadow-lg p-6">
         <div className="overflow-x-auto">

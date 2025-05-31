@@ -79,12 +79,9 @@ const EditStudent = () => {
 
   return (
     <div className='bg-gray-50'>
-      <Nav />
-      <Bannertemp value={"Dashboard"} />
+   
       <div className="flex flex-col lg:flex-row gap-4 p-4">
-        <div className="lg:w-64">
-          <Sidebar col={"bg-purple-100 hover:bg-purple-100 text-[#020A47] font-bold"} />
-        </div>
+     
         <div className="flex-1 flex justify-center items-start">
           <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-lg mt-4">
             <h2 className="text-2xl font-bold mb-6 text-[#020A47]">Edit Student</h2>

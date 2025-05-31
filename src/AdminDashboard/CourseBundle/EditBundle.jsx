@@ -270,12 +270,9 @@ const EditBundle = () => {
 
   return (
     <div className=' bg-gray-50'>
-    <Nav/>
-    <Bannertemp value={"Dashboard"} />
+
     <div className='flex flex-col lg:flex-row gap-6 p-4 lg:p-6'>
-      <div className='lg:w-72'>
-        <Sidebar col={"bg-purple-100 hover:bg-purple-100 text-[#020A47] font-bold"}/>
-      </div>
+    
       <div className="w-full flex justify-center items-start">
       <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-lg mt-4">
         <h2 className="text-2xl font-bold mb-6 text-[#020A47]">Edit Bundle</h2>

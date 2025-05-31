@@ -5,9 +5,9 @@ import { HiMiniDocumentCurrencyRupee, HiUsers } from "react-icons/hi2";
 import { PiCertificateFill, PiStudentBold } from "react-icons/pi";
 import { RiAdminFill, RiShareForwardBoxLine, RiVideoAddLine } from "react-icons/ri";
 import { useNavigate, useLocation } from "react-router-dom";
-import { IoMenu, IoClose } from "react-icons/io5";
+import { IoMenu, IoClose, IoLogoWebComponent } from "react-icons/io5";
 import { MdAddchart } from "react-icons/md";
-import { BiCategory, BiSolidDiscount, BiSolidLayer } from "react-icons/bi";
+import { BiCategory, BiSolidComponent, BiSolidDiscount, BiSolidLayer } from "react-icons/bi";
 import envConfig from '../../utils/envConfig';
 import { GiArcheryTarget } from "react-icons/gi";
 
@@ -16,6 +16,7 @@ const Sidebar = ({ col }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenuser, setIsOpenuser] = useState(false);
   const [isCourseOpen, setIsCourseOpen] = useState(false);
+  const [isFrontCMSOpen, setIsFrontCMSOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -164,7 +165,7 @@ const Sidebar = ({ col }) => {
                 </ul>
               )}
             </div>
-        
+
             <li onClick={() => handleNavigation('/admin/dashboard/bundle/manage')}
               className={`flex items-center space-x-3 text-[#020A47] hover:bg-gray-100 p-3 rounded-lg cursor-pointer transition-colors ${location.pathname === '/admin/dashboard/bundle/manage' ? col : ''}`}>
               <BiSolidLayer className="text-xl" />
@@ -173,7 +174,7 @@ const Sidebar = ({ col }) => {
 
             <li onClick={() => handleNavigation('/admin/dashboard/practice')}
               className={`flex items-center space-x-3 text-[#020A47] hover:bg-gray-100 p-3 rounded-lg cursor-pointer transition-colors ${location.pathname === '/admin/dashboard/practice' ? col : ''}`}>
-             <GiArcheryTarget className="text-xl" />
+              <GiArcheryTarget className="text-xl" />
               <span className="text-base font-medium">Practice</span>
             </li>
 
@@ -184,7 +185,7 @@ const Sidebar = ({ col }) => {
               <span className="text-base font-medium">Students enrolled</span>
             </li>
 
-       
+
 
             <li onClick={() => handleNavigation('/admin/dashboard/paymenthistory')}
               className={`flex items-center space-x-3 text-[#020A47] hover:bg-gray-100 p-3 rounded-lg cursor-pointer transition-colors ${location.pathname === '/admin/dashboard/paymenthistory' ? col : ''}`}>
@@ -196,7 +197,7 @@ const Sidebar = ({ col }) => {
               <li onClick={() => setIsOpenuser(!isOpenuser)}
                 className={`flex items-center justify-between p-3 rounded-lg hover:bg-gray-100 cursor-pointer transition-colors ${location.pathname.includes('/admin/dashboard/users/students') ? col : ''}`}>
                 <div className="flex items-center space-x-3">
-                <HiUsers className="text-md" />
+                  <HiUsers className="text-md" />
                   <span className="text-base font-medium">Users</span>
                 </div>
                 {isOpenuser ? <FaChevronDown className="text-sm" /> : <FaChevronRight className="text-sm" />}
@@ -211,8 +212,72 @@ const Sidebar = ({ col }) => {
                   </li>
                   <li onClick={() => handleNavigation('/admin/dashboard/users/students')}
                     className={`flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer transition-colors ${location.pathname === '/admin/dashboard/users/students' ? 'text-[#020A47]' : ''}`}>
-                    <PiStudentBold  className="text-base" />
+                    <PiStudentBold className="text-base" />
                     <span className="text-sm font-medium">Student</span>
+                  </li>
+                </ul>
+              )}
+            </div>
+
+
+
+            <li onClick={() => handleNavigation('/admin/dashboard/wishlist')}
+              className={`flex items-center space-x-3 text-[#020A47] hover:bg-gray-100 p-3 rounded-lg cursor-pointer transition-colors ${location.pathname === '/admin/dashboard/wishlist' ? col : ''}`}>
+              <FaHeart className="text-lg" />
+              <span className="text-base font-medium">Wishlist</span>
+            </li>
+
+            <div className="relative">
+              <li onClick={() => setIsFrontCMSOpen(!isFrontCMSOpen)}
+                className={`flex items-center justify-between p-3 rounded-lg hover:bg-gray-100 cursor-pointer transition-colors ${location.pathname.includes('/admin/dashboard/front-cms') ? col : ''}`}>
+                <div className="flex items-center space-x-3">
+                  <BiSolidComponent className="text-md" />
+                  <span className="text-base font-medium">Front CMS</span>
+                </div>
+                {isFrontCMSOpen ? <FaChevronDown className="text-sm" /> : <FaChevronRight className="text-sm" />}
+              </li>
+
+              {isFrontCMSOpen && (
+                <ul className="pl-12 mt-2 space-y-2 border-l-2 border-gray-200">
+                  <li onClick={() => handleNavigation('/admin/dashboard/front-cms/page-banner')}
+                    className={`flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer transition-colors ${location.pathname === '/admin/dashboard/front-cms/page-banner' ? 'text-[#020A47]' : ''}`}>
+                    <IoLogoWebComponent className="text-base" />
+                    <span className="text-sm font-medium">Page Banner</span>
+                  </li>
+                  <li onClick={() => handleNavigation('/admin/dashboard/front-cms/about-page-content')}
+                    className={`flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer transition-colors ${location.pathname === '/admin/dashboard/front-cms/about-page-content' ? 'text-[#020A47]' : ''}`}>
+                    <IoLogoWebComponent className="text-base" />
+                    <span className="text-sm font-medium">About Page Content</span>
+                  </li>
+                  <li onClick={() => handleNavigation('/admin/dashboard/front-cms/partners')}
+                    className={`flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer transition-colors ${location.pathname === '/admin/dashboard/front-cms/partners' ? 'text-[#020A47]' : ''}`}>
+                    <IoLogoWebComponent className="text-base" />
+                    <span className="text-sm font-medium">Partners</span>
+                  </li>
+                  <li onClick={() => handleNavigation('/admin/dashboard/front-cms/experts')}
+                    className={`flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer transition-colors ${location.pathname === '/admin/dashboard/front-cms/experts' ? 'text-[#020A47]' : ''}`}>
+                    <IoLogoWebComponent className="text-base" />
+                    <span className="text-sm font-medium">Experts</span>
+                  </li>
+                  <li onClick={() => handleNavigation('/admin/dashboard/front-cms/faq')}
+                    className={`flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer transition-colors ${location.pathname === '/admin/dashboard/front-cms/faq' ? 'text-[#020A47]' : ''}`}>
+                    <IoLogoWebComponent className="text-base" />
+                    <span className="text-sm font-medium">FAQ</span>
+                  </li>
+                  <li onClick={() => handleNavigation('/admin/dashboard/front-cms/WhyArambhSkills')}
+                    className={`flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer transition-colors ${location.pathname === '/admin/dashboard/front-cms/WhyArambhSkills' ? 'text-[#020A47]' : ''}`}>
+                    <IoLogoWebComponent className="text-base" />
+                    <span className="text-sm font-medium">WhyArambhSkills</span>
+                  </li>
+                  <li onClick={() => handleNavigation('/admin/dashboard/front-cms/testimonials')}
+                    className={`flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer transition-colors ${location.pathname === '/admin/dashboard/front-cms/testimonials' ? 'text-[#020A47]' : ''}`}>
+                    <IoLogoWebComponent className="text-base" />
+                    <span className="text-sm font-medium">Testimonials</span>
+                  </li>
+                  <li onClick={() => handleNavigation('/admin/dashboard/front-cms/Contact')}
+                    className={`flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer transition-colors ${location.pathname === '/admin/dashboard/front-cms/Contact' ? 'text-[#020A47]' : ''}`}>
+                    <IoLogoWebComponent className="text-base" />
+                    <span className="text-sm font-medium">Contact</span>
                   </li>
                 </ul>
               )}
@@ -224,25 +289,19 @@ const Sidebar = ({ col }) => {
               <span className="text-base font-medium">NewsLetter</span>
             </li>
 
-            <li onClick={() => handleNavigation('/admin/dashboard/settings')}
-              className={`flex items-center space-x-3 text-[#020A47] hover:bg-gray-100 p-3 rounded-lg cursor-pointer transition-colors ${location.pathname === '/admin/dashboard/settings' ? col : ''}`}>
-              <FaCog className="text-lg" />
-              <span className="text-base font-medium">Settings</span>
-            </li>
-
-       
-
-            <li onClick={() => handleNavigation('/admin/dashboard/wishlist')}
-              className={`flex items-center space-x-3 text-[#020A47] hover:bg-gray-100 p-3 rounded-lg cursor-pointer transition-colors ${location.pathname === '/admin/dashboard/wishlist' ? col : ''}`}>
-              <FaHeart className="text-lg" />
-              <span className="text-base font-medium">Wishlist</span>
-            </li>
 
             <li onClick={() => handleNavigation('/admin/dashboard/certification')}
               className={`flex items-center space-x-3 text-[#020A47] hover:bg-gray-100 p-3 rounded-lg cursor-pointer transition-colors ${location.pathname === '/admin/dashboard/certification' ? col : ''}`}>
               <PiCertificateFill className="text-xl" />
               <span className="text-base font-medium">Certification</span>
             </li>
+            
+            <li onClick={() => handleNavigation('/admin/dashboard/settings')}
+              className={`flex items-center space-x-3 text-[#020A47] hover:bg-gray-100 p-3 rounded-lg cursor-pointer transition-colors ${location.pathname === '/admin/dashboard/settings' ? col : ''}`}>
+              <FaCog className="text-lg" />
+              <span className="text-base font-medium">Settings</span>
+            </li>
+
 
             <li onClick={() => handleNavigation('/')}
               className="flex items-center space-x-3 p-3 text-red-600 rounded-lg hover:bg-gray-100 cursor-pointer transition-colors">

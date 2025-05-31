@@ -1,19 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Nav from '../../Common/Nav';
-import Bannertemp from '../../../components/AboutPage/Bannertemp';
-import Sidebar from '../../Common/Sidebar';
 import apiServices from "../../../api/index"
 
 const AddCouponSkeleton = () => {
   return (
     <div className='bg-gray-50'>
-      <Nav />
-      <Bannertemp value={"Dashboard"} />
+    
       <div className='flex flex-col lg:flex-row gap-6 p-4 lg:p-6'>
-        <div className='lg:w-72'>
-          <Sidebar col={"bg-purple-100 hover:bg-purple-100 text-[#020A47] font-bold"} />
-        </div>
+       
         <div className="p-6 w-1/2 mx-auto">
           <div className="h-8 w-32 bg-gray-200 rounded animate-pulse mb-4"></div>
           <div className="bg-white p-6 rounded-lg shadow space-y-4">
@@ -77,12 +71,9 @@ const AddCoupon = () => {
 
   return (
     <div className='bg-gray-50'>
-      <Nav />
-      <Bannertemp value={"Dashboard"} />
+    
       <div className='flex flex-col lg:flex-row gap-6 p-4 lg:p-6'>
-        <div className='lg:w-72'>
-          <Sidebar col={"bg-purple-100 hover:bg-purple-100 text-[#020A47] font-bold"} />
-        </div>
+     
         <div className="p-6 w-1/2 mx-auto">
           <h1 className="text-xl font-bold mb-4">Add Coupon</h1>
           <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow space-y-4">

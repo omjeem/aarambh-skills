@@ -205,7 +205,7 @@ function CoursesPage() {
                     <div
                       className="h-[180px] md:h-[240px] bg-no-repeat bg-center bg-contain"
                       style={{ 
-                        backgroundImage: `url(${course.image.startsWith('http') ? course.image : `https://arambhskills.onrender.com${course.image}`})`,
+                        backgroundImage: `url(${course.image.startsWith('http') ? course.image : `https://arambhskills-1zuo.onrender.com${course.image}`})`,
                         backgroundSize: 'contain'
                       }}
                     ></div>

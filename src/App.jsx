@@ -74,6 +74,10 @@ import Contact from './AdminDashboard/FrontCMS/Contact/Contact.jsx';
 
 // Import the new AdminLayout
 import AdminLayout from './AdminDashboard/AdminLayout.jsx';
+import AddTopic from './AdminDashboard/PracticePage/AddTopic.jsx';
+import PaymentMethods from './AdminDashboard/Settings/PaymentMethods/PaymentMethods.jsx';
+import SMSSetting from './AdminDashboard/Settings/SMSSetting/SMSSetting.jsx';
+import EmailSetting from './AdminDashboard/Settings/EmailSetting/EmailSetting.jsx';
 
 const App = () => {
   const [cartCount, setCartCount] = useState(0);
@@ -127,7 +131,7 @@ const App = () => {
             {/* Admin Dashboard Layout Route */}
             <Route path="/admin/dashboard" element={<AdminLayout />}>
               {/* Admin Dashboard nested routes */}
-              <Route index element={<AdminDashboard />} /> {/* Admin Dashboard Home */}              
+              <Route index element={<AdminDashboard />} />             
               <Route path="category" element={<Category/>} />
               <Route path="manageCourse" element={<ManageCourse/>} />
               <Route path="withdrawal/request" element={<Payout />} />
@@ -135,10 +139,10 @@ const App = () => {
               <Route path="quiz/add" element={<AddQuiz />} />
               <Route path="project/add" element={<AddProject />} />
               <Route path="video/add" element={<AddNewVideo />} />
-              <Route path="courseedit" element={<EditCourse />} /> {/* Consider using dynamic segment like :id */}
+              <Route path="courseedit" element={<EditCourse />} /> 
               <Route path="students" element={<Students />} />
               <Route path="students/add" element={<AddStudent />} />
-              <Route path="students/Edit" element={<EditStudent />} /> {/* Consider using dynamic segment like :id */}
+              <Route path="students/Edit" element={<EditStudent />} />
               <Route path="bundle/add" element={<CourseBundle />} />
               <Route path="bundle/edit/:id" element={<EditBundle />} />
               <Route path="bundle/manage" element={<ManageBundles />} />
@@ -150,12 +154,15 @@ const App = () => {
               <Route path="subscriber" element={<ManageSubscribers />} />
               <Route path="users/students" element={<UsersStudents />} />
               <Route path="users/students/add" element={<UsersAddStudent />} />
-              <Route path="users/students/edit" element={<UsersEditStudent />} /> {/* Consider using dynamic segment like :id */}
+              <Route path="users/students/edit" element={<UsersEditStudent />} />
               <Route path="users/admin" element={<Admin />} />
               <Route path="users/admin/add" element={<AddAdmin />} />
-              <Route path="users/admin/edit" element={<EditAdmin />} /> {/* Consider using dynamic segment like :id */}
+              <Route path="users/admin/edit" element={<EditAdmin />} /> 
               <Route path="users/admin/assignpermission" element={<AssignPermission />} />
-              <Route path="practice" element={<PracticePage />} />
+              <Route path="practice"  >
+              <Route path="topic/add" element={<AddTopic />} />
+              <Route path="quiz/add" element={<PracticePage />} />
+              </Route>
               <Route path="wishlist" element={<AdminWishlist />} />
               <Route path="front-cms/page-banner" element={<PageBanner />} />
               <Route path="front-cms/about-page-content" element={<AboutPageContent />} />
@@ -165,6 +172,9 @@ const App = () => {
               <Route path="front-cms/WhyArambhSkills" element={<WhyArambhSkills />} />
               <Route path="front-cms/testimonials" element={<AdminTestimonials />} />
               <Route path="front-cms/Contact" element={<Contact />} />
+              <Route path="settings/payment" element={<PaymentMethods />} />
+              <Route path="settings/sms" element={<SMSSetting />} />
+              <Route path="settings/email" element={<EmailSetting />} />
             </Route>
 
 

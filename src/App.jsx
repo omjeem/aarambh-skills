@@ -78,6 +78,14 @@ import AddTopic from './AdminDashboard/PracticePage/AddTopic.jsx';
 import PaymentMethods from './AdminDashboard/Settings/PaymentMethods/PaymentMethods.jsx';
 import SMSSetting from './AdminDashboard/Settings/SMSSetting/SMSSetting.jsx';
 import EmailSetting from './AdminDashboard/Settings/EmailSetting/EmailSetting.jsx';
+import GeneralSetting from './AdminDashboard/Settings/GeneralSetting/GeneralSetting.jsx';
+import BackupHistory from './AdminDashboard/Settings/BackupHistory/BackupHistory.jsx';
+import History from './AdminDashboard/Affiliate/History/History.jsx';
+import AffiliateUsers from './AdminDashboard/Affiliate/AffiliateUsers/AffiliateUsers.jsx';
+import EditUser from './AdminDashboard/Affiliate/AffiliateUsers/Edituser.jsx';
+import RewardPointsTable from './AdminDashboard/RewardPoints/History/History.jsx';
+import RewardPointsSettings from './AdminDashboard/RewardPoints/Settings/Setting.jsx';
+import RewardPointsConditions from './AdminDashboard/RewardPoints/Conditions/Conditions.jsx';
 
 const App = () => {
   const [cartCount, setCartCount] = useState(0);
@@ -175,6 +183,14 @@ const App = () => {
               <Route path="settings/payment" element={<PaymentMethods />} />
               <Route path="settings/sms" element={<SMSSetting />} />
               <Route path="settings/email" element={<EmailSetting />} />
+              <Route path="settings/general" element={<GeneralSetting />} />
+              <Route path="settings/backup" element={<BackupHistory />} />
+             <Route path="affiliate/history" element={<History />} />
+             <Route path="affiliate/users" element={<AffiliateUsers />} />
+             <Route path="affiliate/users/:id" element={<EditUser />} />
+             <Route path="rewardpoints/history" element={<RewardPointsTable />} />
+             <Route path="rewardpoints/settings" element={<RewardPointsSettings />} />
+             <Route path="rewardpoints/conditions" element={<RewardPointsConditions />} />
             </Route>
 
 

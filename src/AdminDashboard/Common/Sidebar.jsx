@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { AiOutlineProject } from "react-icons/ai";
-import { FaGraduationCap, FaUsers, FaBook, FaHeart, FaCog, FaHistory, FaUser, FaComments, FaMoneyBill, FaShoppingCart, FaCommentDots, FaHome, FaChartBar, FaChevronDown, FaChevronRight, FaList, FaPlus, FaQuestionCircle, FaProjectDiagram, FaTasks, FaClipboardList, FaRegNewspaper } from "react-icons/fa";
+import { FaGraduationCap, FaUsers, FaBook, FaHeart, FaCog, FaHistory, FaUser, FaComments, FaMoneyBill, FaShoppingCart, FaCommentDots, FaHome, FaChartBar, FaChevronDown, FaChevronRight, FaList, FaPlus, FaQuestionCircle, FaProjectDiagram, FaTasks, FaClipboardList, FaRegNewspaper, FaAward } from "react-icons/fa";
 import { HiMiniDocumentCurrencyRupee, HiUsers } from "react-icons/hi2";
 import { PiCertificateFill, PiStudentBold } from "react-icons/pi";
 import { RiAdminFill, RiShareForwardBoxLine, RiVideoAddLine } from "react-icons/ri";
@@ -19,6 +19,8 @@ const Sidebar = ({ col }) => {
   const [isFrontCMSOpen, setIsFrontCMSOpen] = useState(false);
   const [isPracticeOpen, setIsPracticeOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [isAffiliateOpen, setIsAffiliateOpen] = useState(false);
+  const [isRewardPointsOpen, setIsRewardPointsOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -306,6 +308,63 @@ const Sidebar = ({ col }) => {
               <span className="text-base font-medium">NewsLetter</span>
             </li>
 
+            {/* Affiliate Section */}
+            <div className="relative">
+              <li onClick={() => setIsAffiliateOpen(!isAffiliateOpen)}
+                className={`flex items-center justify-between p-3 rounded-lg hover:bg-gray-100 cursor-pointer transition-colors ${location.pathname.includes('/admin/dashboard/affiliate') ? col : ''}`}>
+                <div className="flex items-center space-x-3">
+                  <FaChartBar className="text-md" />
+                  <span className="text-base font-medium">Affiliate</span>
+                </div>
+                {isAffiliateOpen ? <FaChevronDown className="text-sm" /> : <FaChevronRight className="text-sm" />}
+              </li>
+              {isAffiliateOpen && (
+                <ul className="pl-12 mt-2 space-y-2 border-l-2 border-gray-200">
+                  <li onClick={() => handleNavigation('/admin/dashboard/affiliate/history')}
+                    className={`flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer transition-colors ${location.pathname === '/admin/dashboard/affiliate/history' ? 'text-[#020A47]' : ''}`}>
+                    <FaHistory className="text-base" />
+                    <span className="text-sm font-medium">History</span>
+                  </li>
+                  <li onClick={() => handleNavigation('/admin/dashboard/affiliate/users')}
+                    className={`flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer transition-colors ${location.pathname === '/admin/dashboard/affiliate/users' ? 'text-[#020A47]' : ''}`}>
+                    <FaUser className="text-base" />
+                    <span className="text-sm font-medium">Affiliate User</span>
+                  </li>
+                </ul>
+              )}
+            </div>
+            
+            {/* Reward Points Section */}
+            <div className="relative">
+              <li onClick={() => setIsRewardPointsOpen && setIsRewardPointsOpen(prev => !prev)}
+                className={`flex items-center justify-between p-3 rounded-lg hover:bg-gray-100 cursor-pointer transition-colors ${location.pathname.includes('/admin/dashboard/rewardpoints') ? col : ''}`}>
+                <div className="flex items-center space-x-3">
+                  <FaAward className="text-md" />
+                  <span className="text-base font-medium">Reward Points</span>
+                </div>
+                {isRewardPointsOpen ? <FaChevronDown className="text-sm" /> : <FaChevronRight className="text-sm" />}
+              </li>
+              {isRewardPointsOpen && (
+                <ul className="pl-12 mt-2 space-y-2 border-l-2 border-gray-200">
+                  <li onClick={() => handleNavigation('/admin/dashboard/rewardpoints/history')}
+                    className={`flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer transition-colors ${location.pathname === '/admin/dashboard/rewardpoints/history' ? 'text-[#020A47]' : ''}`}>
+                    <FaHistory className="text-base" />
+                    <span className="text-sm font-medium">History</span>
+                  </li>
+                  <li onClick={() => handleNavigation('/admin/dashboard/rewardpoints/conditions')}
+                    className={`flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer transition-colors ${location.pathname === '/admin/dashboard/rewardpoints/conditions' ? 'text-[#020A47]' : ''}`}>
+                    <FaList className="text-base" />
+                    <span className="text-sm font-medium">Conditions</span>
+                  </li>
+                  <li onClick={() => handleNavigation('/admin/dashboard/rewardpoints/settings')}
+                    className={`flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer transition-colors ${location.pathname === '/admin/dashboard/rewardpoints/settings' ? 'text-[#020A47]' : ''}`}>
+                    <FaCog className="text-base" />
+                    <span className="text-sm font-medium">Settings</span>
+                  </li>
+                </ul>
+              )}
+            </div>
+
             <li onClick={() => handleNavigation('/admin/dashboard/certification')}
               className={`flex items-center space-x-3 text-[#020A47] hover:bg-gray-100 p-3 rounded-lg cursor-pointer transition-colors ${location.pathname === '/admin/dashboard/certification' ? col : ''}`}>
               <PiCertificateFill className="text-xl" />
@@ -343,6 +402,11 @@ const Sidebar = ({ col }) => {
                     className={`flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer transition-colors ${location.pathname === '/admin/dashboard/settings/payment' ? 'text-[#020A47]' : ''}`}>
                     <FaMoneyBill className="text-base" />
                     <span className="text-sm font-medium">Payment Methods</span>
+                  </li>
+                  <li onClick={() => handleNavigation('/admin/dashboard/settings/backup')}
+                    className={`flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer transition-colors ${location.pathname === '/admin/dashboard/settings/backup' ? 'text-[#020A47]' : ''}`}>
+                    <FaHistory className="text-base" />
+                    <span className="text-sm font-medium">Backup History</span>
                   </li>
                 </ul>
               )}

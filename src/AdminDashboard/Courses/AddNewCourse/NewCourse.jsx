@@ -108,7 +108,7 @@ const NewCourse = () => {
         throw new Error(data.message || 'Failed to create course');
       }
 
-      // Handle success (e.g., redirect or show success message)
+    
   
       navigate('/admin/dashboard/manageCourse')
     } catch (err) {

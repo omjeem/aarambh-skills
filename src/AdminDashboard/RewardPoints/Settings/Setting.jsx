@@ -9,7 +9,7 @@ const Setting = () => {
     const handleSave = (e) => {
         e.preventDefault();
         // Save logic here
-     
+
     };
 
     return (
@@ -18,7 +18,7 @@ const Setting = () => {
                 <h1 className="text-2xl font-bold text-[#020A47]">Reward Points Settings</h1>
             </div>
             <form className="space-y-8" onSubmit={handleSave}>
-            
+
                 <div>
                     <label className="flex items-center gap-3 cursor-pointer">
                         <span className="relative">
@@ -75,7 +75,7 @@ const Setting = () => {
                     />
                     <p className="text-xs text-gray-500 mt-1">You can create a page for encouraging users to become familiar with this feature and put the link here. This link will be displayed in the user's panel.</p>
                 </div>
-                {/* Save Button */}
+          
                 <div>
                     <button
                         type="submit"

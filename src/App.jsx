@@ -86,6 +86,7 @@ import EditUser from './AdminDashboard/Affiliate/AffiliateUsers/Edituser.jsx';
 import RewardPointsTable from './AdminDashboard/RewardPoints/History/History.jsx';
 import RewardPointsSettings from './AdminDashboard/RewardPoints/Settings/Setting.jsx';
 import RewardPointsConditions from './AdminDashboard/RewardPoints/Conditions/Conditions.jsx';
+import ApiPage from './AdminDashboard/Settings/WhatsappApi/ApiPage.jsx';
 
 const App = () => {
   const [cartCount, setCartCount] = useState(0);
@@ -185,6 +186,8 @@ const App = () => {
               <Route path="settings/email" element={<EmailSetting />} />
               <Route path="settings/general" element={<GeneralSetting />} />
               <Route path="settings/backup" element={<BackupHistory />} />
+             <Route path="settings/whatsapp" element={<ApiPage />} />
+             
              <Route path="affiliate/history" element={<History />} />
              <Route path="affiliate/users" element={<AffiliateUsers />} />
              <Route path="affiliate/users/:id" element={<EditUser />} />

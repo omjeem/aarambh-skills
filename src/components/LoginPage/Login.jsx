@@ -50,8 +50,11 @@ export default function Login() {
           setTimeout(() => {
             navigate('/admin/dashboard');
           }, 1000);
+        } else if (data.user) {
+          setTimeout(() => {
+            navigate('/dashboard');
+          }, 1000);
         }
-
       } else {
         setError(data.error || 'Something went wrong. Please try again.');
       }

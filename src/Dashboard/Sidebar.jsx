@@ -150,7 +150,11 @@ const Sidebar = ({ col }) => {
             <FaCommentDots />
             <span>Support</span>
           </li>
-          <li onClick={() => handleNavigation('/')} className="flex items-center space-x-2 p-2 text-red-600 rounded-lg hover:bg-gray-100 cursor-pointer">
+          <li onClick={() => {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            handleNavigation('/');
+          }} className="flex items-center space-x-2 p-2 text-red-600 rounded-lg hover:bg-gray-100 cursor-pointer">
             <RiShareForwardBoxLine />
             <span>Logout</span>
           </li>

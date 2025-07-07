@@ -74,8 +74,8 @@ const CourseBar = () => {
         <div className="cursor-pointer">→</div>
       </div>
       
-      <div className="flex items-center flex-col xl:flex-row justify-between">
-        <div className="w-full md:w-1/2">
+      <div className="flex items-center flex-col md:flex-row justify-between">
+        <div className="w-full xl:w-1/2">
           <PieChart width={200} height={200}>
             <Pie
               data={courseData}

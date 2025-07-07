@@ -18,7 +18,7 @@ const Dashboard = () => {
           <div className='bg-white rounded-xl shadow-sm p-6'>
             <Graph/>
           </div>
-          <div className='grid grid-cols-1 lg:grid-cols-2 gap-6'>
+          <div className='grid grid-cols-1 xl:grid-cols-2 gap-6'>
             <div className='bg-white rounded-xl shadow-sm p-6'>
               <CourseBar/>
             </div>

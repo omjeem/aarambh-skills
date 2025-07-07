@@ -232,7 +232,7 @@ const Nav = ({ cours, about, bundle }) => {
 
       {/* Mobile Menu Button */}
       <button
-        className="lg:hidden text-xl"
+        className="lg:hidden text-xl hidden"
         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
       >
         {isMobileMenuOpen ? "✖" : "☰"}

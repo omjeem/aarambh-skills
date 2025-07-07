@@ -382,10 +382,10 @@ function Bannertemp() {
                     </div>
                   ))}
                 </div>
-                <div className="mt-4 w-full ">
+                <div className="mt-4 w-full flex justify-center items-center ">
                   <Link to={`/checkout`} 
                     onClick={() => handleAddToCart(tier.plan_id)}
-                    className="w-full mt-6 bg-[#020A47] text-white py-3 px-24 md:text-xl rounded-lg hover:bg-[#161d4d] transition-colors"
+                    className="w-full mt-6 bg-[#020A47] text-white py-3 px-7 text-center lg:px-24 md:text-xl rounded-lg hover:bg-[#161d4d] transition-colors"
                   >
                     Pay {tier.price}
                   </Link>

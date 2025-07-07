@@ -79,7 +79,7 @@ const Sidebar = ({ col }) => {
       )}
 
       {/* Sidebar */}
-      <div className={`fixed lg:static top-0 right-0 z-50 w-64 h-full bg-white shadow-lg border-gray-50 border-[1px] rounded-l-2xl p-6 transform transition-transform duration-300 ease-in-out ${
+      <div className={`fixed lg:static top-0 right-0 z-50 w-80 lg:w-64 h-full bg-white shadow-lg border-gray-50 border-[1px] rounded-l-2xl p-6 transform transition-transform duration-300 ease-in-out ${
         isOpen ? 'translate-x-0' : 'translate-x-full lg:translate-x-0'
       }`}>
         {/* Close Button */}
@@ -105,7 +105,7 @@ const Sidebar = ({ col }) => {
         </div>
 
         {/* Navigation Menu */}
-        <ul className="mt-6 space-y-2 overflow-y-auto h-[60vh] lg:h-fit scrollbar-hide">
+        <ul className="mt-6 space-y-2 overflow-y-auto h-[calc(100vh-300px)] lg:h-fit">
           <li onClick={() => handleNavigation('/dashboard')} className={`flex items-center space-x-2 text-[#020A47] hover:bg-gray-100 p-2 rounded-lg cursor-pointer ${location.pathname === '/dashboard' ? col : ''}`}>
             <FaChalkboardUser />
             <span>Dashboard</span>

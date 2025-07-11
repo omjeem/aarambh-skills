@@ -26,7 +26,7 @@ function Slider() {
       >
         <SwiperSlide className="xl:h-[99vh]  flex justify-center  items-center">
           <div className="relative h-[100px] md:h-[200px] xl:h-[250px]  lg:w-[100vw] xl:w-[100vw]   ">
-            <h1 className="absolute flex w-full justify-center items-center text-[11px] md:text-sm top-2  md:top-4 xl:top-5 font-bold xl:text-xl">Earning / Certification Slider</h1>
+            
             <img
               className="h-[100%] w-[99%]  object-fill object-center"
               src="./images/Rectangle 40.png"
@@ -36,7 +36,7 @@ function Slider() {
         </SwiperSlide>
         <SwiperSlide className="xl:h-[100vh]  flex justify-center  items-center">
           <div className="relative h-[100px] md:h-[200px] xl:h-[250px]  lg:w-[100vw] xl:w-[100vw]   ">
-            <h1 className="absolute flex w-full justify-center items-center text-[11px] md:text-sm top-2  md:top-4 xl:top-5 font-bold xl:text-xl">Earning / Certification Slider</h1>
+
             <img
               className="h-[100%] w-[99%]  object-fill object-center"
               src="./images/Rectangle 40.png"

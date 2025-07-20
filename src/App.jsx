@@ -88,6 +88,9 @@ import RewardPointsSettings from './AdminDashboard/RewardPoints/Settings/Setting
 import RewardPointsConditions from './AdminDashboard/RewardPoints/Conditions/Conditions.jsx';
 import ApiPage from './AdminDashboard/Settings/WhatsappApi/ApiPage.jsx';
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const App = () => {
   const [cartCount, setCartCount] = useState(0);
 
@@ -101,10 +104,12 @@ const App = () => {
 
   return (
     <Router>
+      <ToastContainer position="top-right" autoClose={3000} />
       <div className="min-h-screen flex flex-col">
         
         <div className="flex-grow">
           <Routes>
+            
             {/* Public Routes */}
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<Login />} />

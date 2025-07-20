@@ -5,6 +5,7 @@ import { IoSettingsSharp, IoTriangle } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
 import { FaChalkboardUser } from "react-icons/fa6";
 import { RiShareForwardBoxLine } from "react-icons/ri";
+import envConfig from '../../utils/envConfig';
 
 const Nav = ({ cours, about, bundle }) => {
   const [showDropdown, setShowDropdown] = useState(false);

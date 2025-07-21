@@ -8,11 +8,8 @@ import Form from './Form'
 
 const Affiliate = () => {
   return (
-    <div className=''>
-        <Nav/>
-        <Bannertemp value={"Dashboard"} />
-        <div className='lg:my-4 lg:flex lg:gap-4 '>
-        <Sidebar col={"bg-purple-100 hover:bg-purple-100 text-[#020A47] font-bold "} />
+    <div className=''>   
+        <div className='lg:my-4 lg:flex lg:gap-4 '>  
          <Form/>
         </div>
     </div>

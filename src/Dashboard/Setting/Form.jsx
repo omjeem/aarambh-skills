@@ -7,6 +7,7 @@ import { IoSettingsSharp } from "react-icons/io5";
 import { LiaAwardSolid } from "react-icons/lia";
 import { PiCertificateFill } from "react-icons/pi";
 import { RiShareForwardBoxLine } from "react-icons/ri";
+import envConfig from '../../utils/envConfig';
 
 
 const Form = ({ col }) => {
@@ -16,7 +17,7 @@ const Form = ({ col }) => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await fetch('https://backend-3wus.onrender.com/api/auth/user', {
+        const response = await fetch(`${envConfig.backendUrl}/api/auth/user`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

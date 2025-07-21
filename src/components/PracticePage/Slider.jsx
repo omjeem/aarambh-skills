@@ -35,6 +35,7 @@ function Slider() {
         </SwiperSlide>
         <SwiperSlide className="xl:h-[100vh]  flex justify-center  items-center">
           <div className="relative h-[100px] md:h-[200px] xl:h-[250px]  lg:w-[100vw] xl:w-[100vw]   ">
+       
             <img
               className="h-[100%] w-[99%]  object-fill object-center"
               src="./images/Rectangle 40.png"

@@ -33,7 +33,7 @@ export default function OTPVerification({ phoneNumber = "", onVerify = () => {},
     const otpCode = otp.join("");
 
     try {
-      const response = await fetch("https://backend-3wus.onrender.com/api/auth/verify-otp", {
+      const response = await fetch(`${envConfig.backendUrl}/api/auth/verify-otp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ phone: phoneNumber, otp: otpCode }),

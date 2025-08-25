@@ -1,25 +1,10 @@
 import React from 'react'
-import Nav from '../Nav'
-import Sidebar from '../Sidebar'
-import Bannertemp from '../../components/AboutPage/Bannertemp'
-import Form from './Form'
-import Contact from '../../components/BundlesPage/Contact'
 import Details from './Details'
-  
-
 
 const TicketDetails = () => {
   return (
     <div className=''>
-        <Nav/>
-        <Bannertemp value={"Dashboard"} />
-        <div className='my-4 flex gap-4 '>
-        <Sidebar col={"bg-purple-100 hover:bg-purple-100 text-[#020A47] font-bold "} />
-        <div className='flex flex-col  w-full'>
-        <Form />
-       
-        </div>
-        </div>
+      <Details/>
     </div>
   )
 }

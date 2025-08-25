@@ -149,8 +149,7 @@ const modules = [
 const CourseDetailsSkeleton = () => {
   return (
     <div>
-      <Nav />
-      <Bannertemp value={"Dashboard"} />
+    
       <div className='my-4 flex justify-evenly flex-col lg:flex-row items-center'>
         {/* Video Section Skeleton */}
         <div className="flex justify-center items-center mb-6">
@@ -299,8 +298,7 @@ export default function CourseDetails() {
 
   return (
     <div className=' '>
-      <Nav />
-      <Bannertemp value={"Dashboard"} />
+      
       <div className='my-4 flex justify-evenly flex-col lg:flex-row items-center'>
         {/* Video Section */}
         <div className="flex justify-center items-center mb-6">

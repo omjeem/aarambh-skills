@@ -88,6 +88,10 @@ import RewardPointsSettings from './AdminDashboard/RewardPoints/Settings/Setting
 import RewardPointsConditions from './AdminDashboard/RewardPoints/Conditions/Conditions.jsx';
 import ApiPage from './AdminDashboard/Settings/WhatsappApi/ApiPage.jsx';
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import DashboardLayout from './Dashboard/DashboardLayout';
+
 const App = () => {
   const [cartCount, setCartCount] = useState(0);
 
@@ -101,10 +105,12 @@ const App = () => {
 
   return (
     <Router>
+      <ToastContainer position="top-right" autoClose={3000} />
       <div className="min-h-screen flex flex-col">
         
         <div className="flex-grow">
           <Routes>
+            
             {/* Public Routes */}
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<Login />} />
@@ -121,21 +127,22 @@ const App = () => {
             <Route path="/practice" element={<ProtectedRoute element={Practice} />} />
             <Route path="/quiz/:topicName" element={<QuizPage />} />
 
-            {/* Dashboard routes */}
-            <Route path="/chat" element={<Chat />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/dashboard/practice" element={<DashboardPractice />} />
-            <Route path="/dashboard/mycourses" element={<MyCourses />} />
-            <Route path="/dashboard/projects" element={<MyProject />} />
-            <Route path="/dashboard/wishlist" element={<Wishlist />} />
-            <Route path="/dashboard/award-points" element={<AwardPoints />} />
-            <Route path="/dashboard/purchase-history" element={<PurchaseHistory />} />
-            <Route path="/dashboard/certification" element={<Certification />} />
-            <Route path="/dashboard/affiliate" element={<Affiliate />} />
-            <Route path="/dashboard/setting" element={<Setting />} />
-            <Route path="/dashboard/support" element={<Support />} />
-            <Route path="/dashboard/support/ticket-details" element={<TicketDetails />} />
-            <Route path="/dashboard/courses/:courseId" element={<CourseDetails />} />
+            {/* User Dashboard Layout Route */}
+            <Route path="/dashboard" element={<DashboardLayout />}>
+              <Route index element={<Dashboard />} />
+              <Route path="practice" element={<DashboardPractice />} />
+              <Route path="mycourses" element={<MyCourses />} />
+              <Route path="courses/:courseId" element={<CourseDetails />} />
+              <Route path="projects" element={<MyProject />} />
+              <Route path="wishlist" element={<Wishlist />} />
+              <Route path="award-points" element={<AwardPoints />} />
+              <Route path="purchase-history" element={<PurchaseHistory />} />
+              <Route path="certification" element={<Certification />} />
+              <Route path="affiliate" element={<Affiliate />} />
+              <Route path="setting" element={<Setting />} />
+              <Route path="support" element={<Support />} />
+              <Route path="support/ticket-details" element={<TicketDetails />} />
+            </Route>
 
             {/* Admin Dashboard Layout Route */}
             <Route path="/admin/dashboard" element={<AdminLayout />}>

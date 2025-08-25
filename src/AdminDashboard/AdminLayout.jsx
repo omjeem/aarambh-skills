@@ -8,7 +8,7 @@ import Bannertemp from '../components/AboutPage/Bannertemp';
 const AdminLayout = () => {
     return (
         <div className='bg-gray-50'>
-        <Nav/>
+        {/* <Nav/> */}
         <Bannertemp value={"Dashboard"} />
         <div className='flex flex-col lg:flex-row gap-6 p-4 lg:p-6'>
           <div className='lg:w-72'>

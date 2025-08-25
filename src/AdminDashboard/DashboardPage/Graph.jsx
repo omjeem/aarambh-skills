@@ -3,18 +3,18 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } fro
 import { useState } from "react"
 
 const chartData = [
-    { day: "January", value: 23 },
-    { day: "February", value: 0 },
-    { day: "March", value: 10 },
-    { day: "April", value: 20 },
+    { day: "Jan", value: 23 },
+    { day: "Feb", value: 0 },
+    { day: "Mar", value: 10 },
+    { day: "Apr", value: 20 },
     { day: "May", value: 39 },
-    { day: "June", value: 78 },
-    { day: "July", value: 0 },
-    { day: "August", value: 0 },
-    { day: "September", value: 0 },
-    { day: "October", value: 0 },
-    { day: "November", value: 0 },
-    { day: "December", value: 0 },
+    { day: "Jun", value: 78 },
+    { day: "Jul", value: 0 },
+    { day: "Aug", value: 0 },
+    { day: "Sep", value: 0 },
+    { day: "Oct", value: 0 },
+    { day: "Nov", value: 0 },
+    { day: "Dec", value: 0 },
   ]
 
 const Graph = () => {

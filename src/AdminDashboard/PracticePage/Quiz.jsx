@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaPlus, FaTrash, FaUpload } from 'react-icons/fa';
 import { IoMdCheckmarkCircle } from "react-icons/io";
 import { MdError } from "react-icons/md";
 import * as XLSX from 'xlsx';
+import axios from 'axios';
+import envConfig from '../.././utils/envConfig';
 
 const Notification = ({ message, type }) => (
   <div
@@ -36,7 +38,7 @@ const Quiz = () => {
 
   const [selectedCourse, setSelectedCourse] = useState('');
   const [quizTitle, setQuizTitle] = useState('');
-  const [quizLevel, setQuizLevel] = useState('low');
+  const [quizLevel, setQuizLevel] = useState('easy');
   const [questions, setQuestions] = useState([{
     question: '',
     options: ['', '', '', ''],
@@ -44,6 +46,30 @@ const Quiz = () => {
   }]);
   const [notification, setNotification] = useState({ message: '', type: '', show: false });
   const [loading, setLoading] = useState(false);
+  const [topics, setTopics] = useState([]);
+  const [topicsLoading, setTopicsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchTopics = async () => {
+      setTopicsLoading(true);
+      try {
+        const token = localStorage.getItem('token');
+        const response = await axios.get(
+          `${envConfig.backendUrl}/prepare/get_topics/`,
+          { headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` } }
+        );
+        const topicsArr = Array.isArray(response.data.data)
+          ? response.data.data.map(item => ({ id: item.id, title: item.topic }))
+          : [];
+        setTopics(topicsArr);
+      } catch (error) {
+        console.error('Failed to fetch topics:', error);
+      } finally {
+        setTopicsLoading(false);
+      }
+    };
+    fetchTopics();
+  }, []);
 
   const showNotification = (message, type = 'success') => {
     setNotification({ message, type, show: true });
@@ -141,10 +167,31 @@ const Quiz = () => {
 
     setLoading(true);
     try {
-      // Simulate API call delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const token = localStorage.getItem('token');
       
-      showNotification('Quiz added successfully');
+      // Transform questions to match backend format
+      const transformedQuestions = questions.map(q => ({
+        answer: q.options[parseInt(q.answer.charCodeAt(0) - 65)], // Convert A,B,C,D to actual answer text
+        meta_data: {
+          question: q.question,
+          options: q.options,
+          title: quizTitle
+        },
+        level: quizLevel
+      }));
+
+      const requestData = { questions: transformedQuestions };
+      console.log('Sending data to API:', requestData);
+
+      const response = await axios.post(
+        `${envConfig.backendUrl}/prepare/create_question/${selectedCourse}`,
+        requestData,
+        { headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` } }
+      );
+
+      console.log('API Response:', response.data);
+      showNotification(response.data?.message || 'Quiz added successfully');
+      
       // Reset form
       setQuizTitle('');
       setSelectedCourse('');
@@ -155,7 +202,10 @@ const Quiz = () => {
         answer: ''
       }]);
     } catch (error) {
-      showNotification('Error adding quiz', 'error');
+      console.error('API Error Status:', error.response?.status);
+      console.error('API Error Data:', error.response?.data);
+      console.error('API Error Message:', error.message);
+      showNotification(error.response?.data?.message || 'Error adding quiz', 'error');
     } finally {
       setLoading(false);
     }
@@ -181,11 +231,12 @@ const Quiz = () => {
                 onChange={(e) => setSelectedCourse(e.target.value)}
                 className="w-full p-2  border border-gray-300 rounded-md focus:ring-2 focus:ring-[#020A47] focus:border-[#020A47]"
                 required
+                disabled={topicsLoading}
               >
-                <option value="">Select a Topic</option>
-                {courses.map(course => (
-                  <option key={course.id} value={course.id}>
-                    {course.title}
+                <option value="">{topicsLoading ? 'Loading topics...' : 'Select a Topic'}</option>
+                {topics.map(topic => (
+                  <option key={topic.id} value={topic.id}>
+                    {topic.title}
                   </option>
                 ))}
               </select>
@@ -213,9 +264,9 @@ const Quiz = () => {
                 onChange={(e) => setQuizLevel(e.target.value)}
                 className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#020A47] focus:border-[#020A47]"
               >
-                <option value="low">Low</option>
+                <option value="easy">Easy</option>
                 <option value="medium">Medium</option>
-                <option value="high">High</option>
+                <option value="hard">Hard</option>
               </select>
             </div>
 

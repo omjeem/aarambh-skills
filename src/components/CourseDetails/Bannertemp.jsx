@@ -21,7 +21,6 @@ function Bannertemp() {
         const data = await response.json();
         
         if (data.status) {
-          // Find the course that matches the ID from URL
           const matchingCourse = data.data.find(course => 
             course.id === parseInt(courseId)
           );
@@ -49,6 +48,26 @@ function Bannertemp() {
     { id: "overview", label: "Overview" },
     { id: "curriculum", label: "Curriculum" },
     { id: "review", label: "Review" },
+  ];
+
+  //  review data
+  const mockReviews = [
+    {
+      id: 1,
+      name: "Signe Thompson",
+      avatar: "https://randomuser.me/api/portraits/men/32.jpg",
+      date: "12-Nov-2020",
+      rating: 5,
+      review: "This course bundle taught me a lot. Very effective!! :)"
+    },
+    {
+      id: 2,
+      name: "Alexandra Smith",
+      avatar: "https://randomuser.me/api/portraits/women/44.jpg",
+      date: "05-Jan-2021",
+      rating: 4,
+      review: "Good content and well structured."
+    }
   ];
 
   // Use the modules from the course data if available
@@ -326,32 +345,69 @@ function Bannertemp() {
             />
           </div>
 
-          {/* Module List */}
+          {/* Tab Content */}
           <div className="mt-4 flex gap-4 drop-shadow-xl flex-col">
-            {modules.map((module) => (
-              <div
-                key={module.id}
-                className="flex items-center justify-between p-4 bg-white rounded-lg border hover:shadow-md transition-shadow"
-              >
-                <div className="flex items-center gap-20 w-full space-x-3">
-                  <FaCirclePlay className="w-8 h-8 invert border-[1px] border-[#565151] rounded-full bg-white" />
-                  <div>
-                    <span className="font-medium">{module.title}</span>
-                    {module.topics && (
-                      <div className="text-sm text-gray-600 mt-1">
-                        {module.topics.length} topics
-                      </div>
-                    )}
-                  </div>
-                </div>
-                <div className="flex items-center space-x-3">
-                  {module.duration && (
-                    <span className="text-sm">{module.duration}</span>
-                  )}
-                  {module.locked && <FaLock className="w-4 h-4" />}
-                </div>
+            {activeTab === "overview" && (
+              <div className="p-4 text-gray-800">
+                <h2 className="text-xl font-bold mb-2">Create a distinctive resume to stand out from the crowd.</h2>
+                <p className="mb-2">Finding the perfect, creative resume template can be hard. InDesign can help you create a custom layout that sets you apart from other job seekers.</p>
+                <h3 className="font-semibold mt-4 mb-1">Start with the content.</h3>
+                <p className="mb-2">Resume writing is an art on its own, and a good resume needs to be well written before it can be well designed. It’s easy to get carried away and include too much information. Start with action verbs and write concisely about your work history using bullet points.</p>
+                <h3 className="font-semibold mt-4 mb-1">Sketch out a couple of layout options.</h3>
+                <p>Once you have the content down, it’s time to try out a few layout options, like two columns versus three. You can sketch out a few resume samples on paper before creating them in InDesign. Once you are ready, set up your InDesign document and use grids to ensure perfect alignment.</p>
               </div>
-            ))}
+            )}
+            {activeTab === "curriculum" && (
+              <>
+                {modules.map((module) => (
+                  <div
+                    key={module.id}
+                    className="flex items-center justify-between p-4 bg-white rounded-lg border hover:shadow-md transition-shadow"
+                  >
+                    <div className="flex items-center gap-20 w-full space-x-3">
+                      <FaCirclePlay className="w-8 h-8 invert border-[1px] border-[#565151] rounded-full bg-white" />
+                      <div>
+                        <span className="font-medium">{module.title}</span>
+                        {module.topics && (
+                          <div className="text-sm text-gray-600 mt-1">
+                            {module.topics.length} topics
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                      {module.duration && (
+                        <span className="text-sm">{module.duration}</span>
+                      )}
+                      {module.locked && <FaLock className="w-4 h-4" />}
+                    </div>
+                  </div>
+                ))}
+              </>
+            )}
+            {activeTab === "review" && (
+              <div className="p-2">
+                <h2 className="text-xl font-bold mb-4">Reviews</h2>
+                {mockReviews.map((review) => (
+                  <div key={review.id} className="bg-gray-50 border rounded-lg p-4 mb-4 flex flex-col shadow-sm">
+                    <div className="flex items-center mb-2">
+                      <img src={review.avatar} alt={review.name} className="w-10 h-10 rounded-full mr-3 border" />
+                      <div>
+                        <div className="font-semibold">{review.name}</div>
+                        <div className="text-xs text-gray-500">{review.date}</div>
+                      </div>
+                      <div className="flex items-center ml-auto">
+                        <span className="text-[#F0B71A] text-lg mr-1">
+                          {"★".repeat(review.rating)}
+                        </span>
+                        <span className="text-gray-500 text-sm">({review.rating})</span>
+                      </div>
+                    </div>
+                    <div className="text-gray-700 text-sm mt-2">{review.review}</div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
         <div className="bg-white w-[96%] xl:w-[800px] ml-2 md:ml-0 rounded-lg overflow-hidden border-2 drop-shadow-2xl shadow-xl border-[#020A47]">
@@ -382,10 +438,10 @@ function Bannertemp() {
                     </div>
                   ))}
                 </div>
-                <div className="mt-4 w-full ">
+                <div className="mt-4 w-full flex justify-center items-center ">
                   <Link to={`/checkout`} 
                     onClick={() => handleAddToCart(tier.plan_id)}
-                    className="w-full mt-6 bg-[#020A47] text-white py-3 px-24 md:text-xl rounded-lg hover:bg-[#161d4d] transition-colors"
+                    className="w-full mt-6 bg-[#020A47] text-white py-3 px-7 text-center lg:px-24 md:text-xl rounded-lg hover:bg-[#161d4d] transition-colors"
                   >
                     Pay {tier.price}
                   </Link>

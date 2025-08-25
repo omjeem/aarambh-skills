@@ -116,7 +116,7 @@ const Sidebar = ({ col }) => {
 
       {/* Sidebar */}
       <div
-        className={`fixed lg:static top-0 right-0 z-50  bg-white shadow-lg border-gray-50 border-[1px] rounded-l-2xl transform transition-transform duration-300 ease-in-out ${
+        className={`fixed lg:static top-0 right-0 z-50 w-80 lg:w-auto h-full bg-white shadow-lg border-gray-50 border-[1px] rounded-l-2xl transform transition-transform duration-300 ease-in-out ${
           isOpen ? "translate-x-0" : "translate-x-full lg:translate-x-0"
         }`}
       >
@@ -145,8 +145,8 @@ const Sidebar = ({ col }) => {
         </div>
 
         {/* Navigation Menu */}
-        <div className="p-4">
-          <ul className="space-y-2 overflow-y-auto  scrollbar-hide">
+        <div className="p-4 h-[calc(100vh-200px)] overflow-y-auto">
+          <ul className="space-y-2">
             <li
               onClick={() => handleNavigation("/admin/dashboard")}
               className={`flex items-center space-x-3 text-[#020A47] hover:bg-gray-100 p-3 rounded-lg cursor-pointer transition-colors ${

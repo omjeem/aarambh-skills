@@ -11,6 +11,7 @@ import { IoSettingsSharp, IoTriangle } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { RiShareForwardBoxLine } from "react-icons/ri";
 import { useSelector } from "react-redux";
+import envConfig from '../../utils/envConfig';
 
 const Nav = ({ cours, about, bundle }) => {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -23,10 +24,11 @@ const Nav = ({ cours, about, bundle }) => {
   const cartCount = useSelector((state) => state.cart.count);
 
   useEffect(() => {
-    const fetchUserData = async () => {
+    (async () => {
       try {
-        const response = await fetch(
-          "https://arambhskills.onrender.com/user/get_user",
+        const token = localStorage.getItem('token')
+        if (!token) return
+        const response = await fetch(`${envConfig.backendUrl}/user/get_user`,
           {
             method: "GET",
             headers: {
@@ -58,9 +60,7 @@ const Nav = ({ cours, about, bundle }) => {
         console.error("Error fetching user data:", error);
         setUser(null);
       }
-    };
-
-    fetchUserData();
+    })();
   }, []);
 
   const handleUserDropdownToggle = () => {
@@ -232,7 +232,7 @@ const Nav = ({ cours, about, bundle }) => {
 
       {/* Mobile Menu Button */}
       <button
-        className="lg:hidden text-xl"
+        className="lg:hidden text-xl hidden"
         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
       >
         {isMobileMenuOpen ? "✖" : "☰"}
